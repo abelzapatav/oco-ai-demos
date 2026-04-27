@@ -138,11 +138,12 @@
 
     @keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
     @keyframes fadeUp  {from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none}}
-    /* ── MOBILE AGENT BAR (oculta en desktop) ── */
+    /* ── MOBILE: barra de agente + tarjeta info (ocultos en desktop) ── */
     .mob-bar{display:none;align-items:center;gap:10px;padding:8px 0 10px;border-bottom:1px solid rgba(45,202,140,.06);flex-shrink:0;}
     .mob-icon{font-size:15px;width:28px;height:28px;background:rgba(45,202,140,.08);border:1px solid rgba(45,202,140,.13);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
     .mob-name{font-family:var(--display);font-weight:600;font-size:.76rem;color:var(--white);letter-spacing:-.01em;}
     .mob-sub{font-size:.61rem;color:var(--steel);margin-top:1px;}
+    .mob-info{display:none;flex-direction:column;gap:14px;background:rgba(17,34,25,.55);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid rgba(45,202,140,.10);border-radius:20px;padding:18px 16px;flex-shrink:0;}
 
     /* ── REDUCED MOTION ── */
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.1ms!important;}}
@@ -151,6 +152,7 @@
     @media(max-width:768px){
       .sidebar{display:none;}
       .mob-bar{display:flex;}
+      .mob-info{display:flex;}
       .page-wrap{height:100vh;height:100dvh;padding:0 16px;}
       .app{height:100vh;height:100dvh;}
       header{padding:12px 0 10px;}
@@ -292,6 +294,76 @@
     </div>
 
     <div class="chat" id="chat" role="log" aria-live="polite" aria-label="Conversación con el asesor de carnes">
+
+      <!-- tarjeta de info completa: solo visible en móvil -->
+      <div class="mob-info" aria-label="Información del asesor">
+        <div class="sb-agent">
+          <div class="sb-icon" aria-hidden="true">🥩</div>
+          <div>
+            <div class="sb-name">Asesor de Carnes</div>
+            <div class="sb-sector">Venta de Carnes</div>
+          </div>
+        </div>
+        <div class="sb-hr"></div>
+        <p class="sb-desc">Experto en cortes, precios y pedidos. Perfecto para clientes al menudeo y mayoreo que buscan la mejor calidad.</p>
+        <div>
+          <div class="sb-section-title">Capacidades</div>
+          <div class="sb-caps">
+            <div class="sb-cap">
+              <div class="sb-cap-emoji">🕐</div>
+              <div>
+                <div class="sb-cap-title">Disponible 24/7</div>
+                <div class="sb-cap-desc">Atiende consultas en cualquier momento, sin demoras ni días de descanso.</div>
+              </div>
+            </div>
+            <div class="sb-cap">
+              <div class="sb-cap-emoji">📦</div>
+              <div>
+                <div class="sb-cap-title">Catálogo de productos</div>
+                <div class="sb-cap-desc">Presenta cada corte con descripción, precio y uso ideal, para que el cliente elija con confianza.</div>
+              </div>
+            </div>
+            <div class="sb-cap">
+              <div class="sb-cap-emoji">❓</div>
+              <div>
+                <div class="sb-cap-title">Preguntas frecuentes</div>
+                <div class="sb-cap-desc">Responde dudas sobre cortes, procedencia, tiempo de entrega y condiciones de compra al instante.</div>
+              </div>
+            </div>
+            <div class="sb-cap">
+              <div class="sb-cap-emoji">📊</div>
+              <div>
+                <div class="sb-cap-title">Stock en tiempo real</div>
+                <div class="sb-cap-desc">Informa disponibilidad actualizada para que el cliente sepa qué hay sin necesidad de llamar.</div>
+              </div>
+            </div>
+            <div class="sb-cap">
+              <div class="sb-cap-emoji">🧾</div>
+              <div>
+                <div class="sb-cap-title">Cotizaciones automáticas</div>
+                <div class="sb-cap-desc">Genera presupuestos detallados por cantidad y tipo de corte, listos para aprobar o ajustar.</div>
+              </div>
+            </div>
+            <div class="sb-cap">
+              <div class="sb-cap-emoji">👤</div>
+              <div>
+                <div class="sb-cap-title">Transferencia a un asesor</div>
+                <div class="sb-cap-desc">Cuando el cliente lo necesita, conecta con un asesor humano sin perder el hilo de la conversación.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="sb-section-title">Ideal para</div>
+          <div class="sb-tags">
+            <span class="sb-tag">Restaurantes</span>
+            <span class="sb-tag">Mayoristas</span>
+            <span class="sb-tag">Hogares</span>
+            <span class="sb-tag">Eventos</span>
+          </div>
+        </div>
+      </div>
+
       <div class="welcome">
         <div class="w-icon" aria-hidden="true">🥩</div>
         <div class="w-title">Asesor de Carnes ΩCO AI</div>
