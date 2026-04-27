@@ -241,10 +241,41 @@
     @keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
     @keyframes fadeUp  {from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none}}
 
-    /* ── responsive ── */
+    /* ── MOBILE AGENT BAR (oculta en desktop) ── */
+    .mob-bar{display:none;align-items:center;gap:10px;padding:8px 0 10px;border-bottom:1px solid rgba(45,202,140,.06);flex-shrink:0;}
+    .mob-icon{font-size:15px;width:28px;height:28px;background:rgba(45,202,140,.08);border:1px solid rgba(45,202,140,.13);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .mob-name{font-family:var(--display);font-weight:600;font-size:.76rem;color:var(--white);letter-spacing:-.01em;}
+    .mob-sub{font-size:.61rem;color:var(--steel);margin-top:1px;}
+
+    /* ── REDUCED MOTION ── */
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.1ms!important;}}
-    @media(max-width:768px){.sidebar{display:none;}.page-wrap{padding:0 10px;}}
-    @media(max-width:480px){.msg{max-width:90%;}}
+
+    /* ── 768px: tablet / móvil ── */
+    @media(max-width:768px){
+      .sidebar{display:none;}
+      .mob-bar{display:flex;}
+      .page-wrap{height:100vh;height:100dvh;padding:0 16px;}
+      .app{height:100vh;height:100dvh;}
+      header{padding:12px 0 10px;}
+      .hd-title{font-size:.80rem;}
+      .hd-sub{font-size:.60rem;}
+      .input-area{padding:8px 0;padding-bottom:max(16px,env(safe-area-inset-bottom));}
+      .icon-btn{width:36px;height:36px;}
+      .btn-send{width:40px;height:40px;border-radius:12px;}
+      .welcome{padding:16px 14px 14px;}
+      .w-icon{width:46px;height:46px;font-size:22px;}
+      .suggest-btn{font-size:.70rem;padding:7px 14px;}
+    }
+
+    /* ── 480px: teléfono pequeño ── */
+    @media(max-width:480px){
+      .msg{max-width:90%;}
+      .bubble{font-size:.84rem;padding:10px 13px;}
+      #msgInput{font-size:1rem;}
+      .page-wrap{padding:0 12px;}
+      .logo-name{display:none;}
+      .chat{padding:14px 0 8px;}
+    }
   </style>
 </head>
 <body>
@@ -353,6 +384,15 @@
         <div class="hd-sub"><span class="live-dot" aria-hidden="true"></span>En línea · Demo</div>
       </div>
     </header>
+
+    <!-- barra agente (solo visible en móvil) -->
+    <div class="mob-bar" aria-label="Información del agente">
+      <div class="mob-icon" aria-hidden="true">🏠</div>
+      <div>
+        <div class="mob-name">Agente Inmobiliario</div>
+        <div class="mob-sub">Sector Inmobiliario · ΩCO AI</div>
+      </div>
+    </div>
 
     <div class="chat" id="chat" role="log" aria-live="polite" aria-label="Conversación con el agente">
       <div class="welcome">
