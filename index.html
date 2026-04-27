@@ -3,421 +3,453 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Demos · Agentes de IA</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <title>ΩCO AI · Demos de Agentes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
   <style>
-    /* =============================================
-       BASE & VARIABLES
-    ============================================= */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --black:    #0a0a0a;
-      --gray-900: #111111;
-      --gray-800: #1c1c1c;
-      --gray-700: #2a2a2a;
-      --gray-600: #3f3f3f;
-      --gray-400: #888888;
-      --gray-300: #b0b0b0;
-      --gray-200: #d4d4d4;
-      --gray-100: #f0f0f0;
-      --white:    #ffffff;
-      --font-display: 'Playfair Display', serif;
+      --deep-night:  #0B1C17;
+      --dark-2:      #112219;
+      --forest:      #1A7A52;
+      --oco-green:   #2DCA8C;
+      --mint:        #5DDBA8;
+      --pale-green:  #D1F0E3;
+      --steel:       #7A9E90;
+      --fog:         #B8D0C7;
+      --white:       #FFFFFF;
+      --off-white:   #EEF4F1;
+      --font-display: 'Space Grotesk', sans-serif;
       --font-body:    'DM Sans', sans-serif;
     }
 
     html, body {
       min-height: 100%;
-      background: var(--black);
+      background: var(--deep-night);
       color: var(--white);
       font-family: var(--font-body);
       overflow-x: hidden;
     }
 
-    /* =============================================
-       BACKGROUND
-    ============================================= */
-    body::before {
-      content: '';
+    /* ── FONDO ATMOSFÉRICO ── */
+    .bg-glow {
       position: fixed;
       inset: 0;
-      background-image:
-        repeating-linear-gradient(
-          -45deg,
-          rgba(255,255,255,0.012) 0px,
-          rgba(255,255,255,0.012) 1px,
-          transparent 1px,
-          transparent 12px
-        );
+      background:
+        radial-gradient(ellipse 90% 70% at 75% 10%, rgba(26,122,82,0.30) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 15% 85%, rgba(45,202,140,0.10) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 40% at 50% 50%, rgba(11,28,23,0.0) 0%, var(--deep-night) 100%);
       pointer-events: none;
       z-index: 0;
     }
 
-    body::after {
-      content: '';
+    /* ── ANILLOS CONCÉNTRICOS ── */
+    .rings-wrap {
       position: fixed;
-      top: -120px;
-      left: 50%;
-      transform: translateX(-50%);
+      top: 50%;
+      right: -120px;
+      transform: translateY(-50%);
       width: 700px;
-      height: 500px;
-      background: radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, transparent 70%);
+      height: 700px;
       pointer-events: none;
       z-index: 0;
+      opacity: 0.6;
     }
+    .rings-wrap svg { width: 100%; height: 100%; animation: rotateSlow 80s linear infinite; }
+    @keyframes rotateSlow { to { transform: rotate(360deg); } }
 
-    /* =============================================
-       CORNER ORNAMENTS
-    ============================================= */
-    .corner {
+    /* ── PARTÍCULAS ── */
+    .particles {
       position: fixed;
-      width: 80px; height: 80px;
+      inset: 0;
       pointer-events: none;
-      opacity: 0.1;
-      z-index: 1;
+      z-index: 0;
+      overflow: hidden;
     }
-    .corner-tl { top: 24px; left: 24px; border-top: 1px solid #fff; border-left: 1px solid #fff; }
-    .corner-br { bottom: 24px; right: 24px; border-bottom: 1px solid #fff; border-right: 1px solid #fff; }
+    .particle {
+      position: absolute;
+      width: 2px; height: 2px;
+      background: var(--oco-green);
+      border-radius: 50%;
+      opacity: 0;
+      animation: floatUp var(--dur) var(--delay) infinite ease-in-out;
+    }
+    @keyframes floatUp {
+      0%   { opacity: 0; transform: translateY(0) scale(1); }
+      20%  { opacity: 0.6; }
+      80%  { opacity: 0.3; }
+      100% { opacity: 0; transform: translateY(-120px) scale(0.5); }
+    }
 
-    /* =============================================
-       PAGE LAYOUT
-    ============================================= */
+    /* ── LAYOUT ── */
     .page {
       position: relative;
       z-index: 1;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      padding: 0 24px 64px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
       align-items: center;
-      padding: 60px 24px 60px;
+      justify-content: space-between;
+      padding: 28px 0 0;
+      animation: fadeDown 0.6s ease both;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #1A7A52 0%, #2DCA8C 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+    .logo-name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--white);
+      letter-spacing: -0.01em;
+    }
+    .nav-badge {
+      font-family: var(--font-display);
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--steel);
+      border: 1px solid rgba(122,158,144,0.25);
+      border-radius: 100px;
+      padding: 5px 14px;
     }
 
-    /* =============================================
-       HEADER
-    ============================================= */
-    .header {
+    /* ── HERO ── */
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      max-width: 720px;
-      margin-bottom: 64px;
+      padding: 80px 0 60px;
+      max-width: 860px;
+      margin: 0 auto;
+      width: 100%;
     }
 
-    .badge {
+    .hero-label {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      border: 1px solid var(--gray-700);
-      background: var(--gray-900);
+      border: 1px solid rgba(45,202,140,0.20);
+      background: rgba(45,202,140,0.06);
       border-radius: 100px;
-      padding: 6px 18px;
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gray-300);
-      margin-bottom: 28px;
-      animation: fadeDown 0.7s ease both;
-    }
-
-    .badge-dot {
-      width: 6px; height: 6px;
-      background: var(--white);
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.4; transform: scale(0.7); }
-    }
-
-    .header h1 {
+      padding: 6px 16px 6px 10px;
       font-family: var(--font-display);
-      font-size: clamp(2.4rem, 5vw, 4rem);
-      font-weight: 900;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      animation: fadeUp 0.8s 0.1s ease both;
+      font-size: 0.70rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mint);
+      margin-bottom: 32px;
+      animation: fadeDown 0.7s 0.1s ease both;
+    }
+    .hero-dot {
+      width: 7px; height: 7px;
+      background: var(--oco-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--oco-green);
+      animation: pulse 2s infinite;
+      flex-shrink: 0;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 8px var(--oco-green); }
+      50%       { transform: scale(0.7); opacity: 0.5; box-shadow: 0 0 4px var(--oco-green); }
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+    .hero h1 .line-1 {
+      display: block;
       color: var(--white);
     }
-
-    .header h1 .line-one {
+    .hero h1 .line-2 {
       display: block;
-      background: linear-gradient(135deg, #ffffff 0%, #888888 100%);
+      background: linear-gradient(90deg, #2DCA8C 0%, #5DDBA8 50%, #2DCA8C 100%);
+      background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      animation: shimmerText 4s 1s linear infinite;
+    }
+    @keyframes shimmerText {
+      to { background-position: 200% center; }
     }
 
-    .header h1 .line-two {
-      display: block;
-      font-style: italic;
-      background: linear-gradient(135deg, #d8d0c4 0%, #ffffff 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      position: relative;
+    .hero-divider {
+      width: 40px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--forest), transparent);
+      margin: 0 auto 24px;
+      animation: fadeIn 1s 0.4s ease both;
     }
 
-    .header h1 .line-two::after {
-      content: '';
-      position: absolute;
-      bottom: 2px; left: 0;
-      width: 100%; height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      animation: shimmer 3s 1.2s infinite;
-    }
-
-    @keyframes shimmer {
-      0%   { opacity: 0; transform: scaleX(0); }
-      20%  { opacity: 1; transform: scaleX(1); }
-      80%  { opacity: 1; transform: scaleX(1); }
-      100% { opacity: 0; transform: scaleX(0); }
-    }
-
-    .divider {
-      width: 48px;
-      height: 1px;
-      background: var(--gray-600);
-      margin: 24px auto;
-      animation: fadeIn 1s 0.3s ease both;
-    }
-
-    .header p {
-      font-size: 0.95rem;
-      line-height: 1.75;
-      color: var(--gray-400);
+    .hero p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--steel);
       font-weight: 300;
-      max-width: 520px;
-      margin: 0 auto;
-      animation: fadeUp 0.8s 0.3s ease both;
+      max-width: 480px;
+      margin: 0 auto 64px;
+      animation: fadeUp 0.8s 0.35s ease both;
     }
 
-    /* =============================================
-       DEMO GRID
-    ============================================= */
+    /* ── DEMO GRID ── */
     .demo-grid {
       width: 100%;
-      max-width: 960px;
+      max-width: 980px;
+      margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
       animation: fadeUp 0.9s 0.5s ease both;
     }
 
-    /* =============================================
-       DEMO CARD
-    ============================================= */
+    /* ── DEMO CARD ── */
     .demo-card {
-      background: var(--gray-900);
-      border: 1px solid var(--gray-700);
-      border-radius: 20px;
-      padding: 32px 28px;
+      position: relative;
+      background: rgba(17, 34, 25, 0.55);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(45, 202, 140, 0.10);
+      border-radius: 22px;
+      padding: 32px 28px 28px;
       display: flex;
       flex-direction: column;
       gap: 20px;
-      cursor: pointer;
       text-decoration: none;
       color: inherit;
-      position: relative;
       overflow: hidden;
-      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
     }
-
-    /* Top accent line */
     .demo-card::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(45,202,140,0.08) 0%, transparent 70%);
       opacity: 0;
-      transition: opacity 0.3s;
+      transition: opacity 0.4s;
+      pointer-events: none;
     }
-
-    /* Glow on hover */
     .demo-card::after {
       content: '';
       position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.04) 0%, transparent 65%);
+      top: 0; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(45,202,140,0.5), transparent);
       opacity: 0;
       transition: opacity 0.3s;
-      pointer-events: none;
     }
-
     .demo-card:hover {
-      border-color: var(--gray-500, #555);
-      transform: translateY(-4px);
-      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+      border-color: rgba(45, 202, 140, 0.30);
+      transform: translateY(-6px);
+      box-shadow: 0 32px 64px rgba(0,0,0,0.35), 0 0 40px rgba(45,202,140,0.06);
     }
+    .demo-card:hover::before { opacity: 1; }
+    .demo-card:hover::after  { opacity: 1; }
 
-    .demo-card:hover::before,
-    .demo-card:hover::after { opacity: 1; }
-
-    /* Emoji icon */
+    /* Card icon */
     .card-icon {
-      width: 52px; height: 52px;
-      border-radius: 14px;
-      background: var(--gray-800);
-      border: 1px solid var(--gray-700);
+      width: 54px; height: 54px;
+      border-radius: 15px;
+      background: rgba(26,122,82,0.20);
+      border: 1px solid rgba(45,202,140,0.18);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 24px;
+      transition: background 0.3s, transform 0.3s;
       flex-shrink: 0;
-      transition: background 0.25s;
     }
-
     .demo-card:hover .card-icon {
-      background: var(--gray-700);
+      background: rgba(45,202,140,0.15);
+      transform: scale(1.08);
     }
 
-    /* Card body */
     .card-body { flex: 1; }
-
     .card-tag {
-      font-size: 0.68rem;
+      font-family: var(--font-display);
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--gray-400);
-      margin-bottom: 8px;
+      color: var(--oco-green);
+      margin-bottom: 10px;
+      opacity: 0.8;
     }
-
     .card-title {
       font-family: var(--font-display);
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 700;
       line-height: 1.2;
       color: var(--white);
       margin-bottom: 10px;
+      letter-spacing: -0.02em;
     }
-
     .card-desc {
-      font-size: 0.82rem;
-      line-height: 1.6;
-      color: var(--gray-400);
+      font-size: 0.83rem;
+      line-height: 1.65;
+      color: var(--steel);
       font-weight: 300;
     }
 
-    /* Card footer */
     .card-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-top: 16px;
-      border-top: 1px solid var(--gray-700);
+      padding-top: 18px;
+      border-top: 1px solid rgba(45,202,140,0.08);
     }
-
     .card-cta {
+      font-family: var(--font-display);
       font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--gray-300);
-      letter-spacing: 0.04em;
+      font-weight: 600;
+      color: var(--fog);
+      letter-spacing: 0.02em;
       transition: color 0.2s;
     }
-
-    .demo-card:hover .card-cta { color: var(--white); }
+    .demo-card:hover .card-cta { color: var(--oco-green); }
 
     .card-arrow {
-      width: 28px; height: 28px;
+      width: 30px; height: 30px;
       border-radius: 50%;
-      background: var(--gray-700);
-      border: 1px solid var(--gray-600);
+      background: rgba(45,202,140,0.08);
+      border: 1px solid rgba(45,202,140,0.18);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--gray-300);
+      color: var(--oco-green);
       font-size: 12px;
-      transition: background 0.2s, color 0.2s, transform 0.2s;
+      transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
     }
-
     .demo-card:hover .card-arrow {
-      background: var(--white);
-      color: var(--black);
-      transform: translateX(2px);
+      background: var(--oco-green);
+      color: var(--deep-night);
+      transform: translateX(3px);
+      box-shadow: 0 0 16px rgba(45,202,140,0.4);
     }
 
-    /* =============================================
-       FOOTER
-    ============================================= */
-    .footer {
-      margin-top: 52px;
-      font-size: 0.72rem;
-      color: var(--gray-600);
-      letter-spacing: 0.06em;
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding-top: 56px;
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      animation: fadeIn 1s 1s ease both;
+      color: rgba(122,158,144,0.45);
+      animation: fadeIn 1.2s 0.8s ease both;
     }
 
-    /* =============================================
-       KEYFRAMES
-    ============================================= */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
+    /* ── KEYFRAMES ── */
+    @keyframes fadeUp   { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:none; } }
+    @keyframes fadeDown { from { opacity:0; transform:translateY(-14px);} to { opacity:1; transform:none; } }
+    @keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
 
-    /* =============================================
-       RESPONSIVE
-    ============================================= */
+    /* ── RESPONSIVE ── */
     @media (max-width: 860px) {
-      .demo-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .demo-grid { grid-template-columns: repeat(2,1fr); }
     }
-
     @media (max-width: 560px) {
-      .page { padding: 40px 16px 48px; }
-      .demo-grid {
-        grid-template-columns: 1fr;
-      }
-      .header h1 { font-size: 2rem; }
+      .demo-grid { grid-template-columns: 1fr; }
+      .hero h1   { font-size: 2.4rem; }
+      .hero p    { margin-bottom: 44px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="corner corner-tl"></div>
-  <div class="corner corner-br"></div>
+<!-- Fondo -->
+<div class="bg-glow"></div>
 
-  <div class="page">
+<!-- Anillos -->
+<div class="rings-wrap">
+  <svg viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="300" cy="300" r="90"  stroke="rgba(45,202,140,0.12)" stroke-width="1"/>
+    <circle cx="300" cy="300" r="160" stroke="rgba(45,202,140,0.09)" stroke-width="1"/>
+    <circle cx="300" cy="300" r="230" stroke="rgba(45,202,140,0.06)" stroke-width="1"/>
+    <circle cx="300" cy="300" r="300" stroke="rgba(45,202,140,0.04)" stroke-width="1"/>
+    <circle cx="300" cy="300" r="7"   fill="rgba(45,202,140,0.4)"/>
+    <line x1="300" y1="210" x2="300" y2="190" stroke="rgba(45,202,140,0.15)" stroke-width="1"/>
+    <line x1="390" y1="300" x2="410" y2="300" stroke="rgba(45,202,140,0.10)" stroke-width="1"/>
+  </svg>
+</div>
 
-    <!-- ======= HEADER ======= -->
-    <header class="header">
-      <div class="badge">
-        <span class="badge-dot"></span>
-        Demos disponibles
-      </div>
-      <h1>
-        <span class="line-one">Agentes de IA</span>
-        <span class="line-two">para tu industria</span>
-      </h1>
-      <div class="divider"></div>
-      <p>
-        Explora nuestras demos interactivas. Cada agente está diseñado para
-        un rubro específico y conectado en tiempo real mediante inteligencia artificial.
-      </p>
-    </header>
+<!-- Partículas -->
+<div class="particles" id="particles"></div>
 
-    <!-- ======= DEMO GRID ======= -->
-    <main class="demo-grid">
+<div class="page">
 
-      <!-- Card: Inmobiliaria -->
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="logo">
+      <div class="logo-icon">Ω</div>
+      <span class="logo-name">ΩCO AI</span>
+    </a>
+    <span class="nav-badge">Demos · 2025</span>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">
+      <span class="hero-dot"></span>
+      Demos interactivas disponibles
+    </div>
+
+    <h1>
+      <span class="line-1">Agentes de IA</span>
+      <span class="line-2">para tu industria</span>
+    </h1>
+
+    <div class="hero-divider"></div>
+
+    <p>
+      Explora nuestras demos en vivo. Cada agente está diseñado para
+      un rubro específico y conectado en tiempo real con inteligencia artificial.
+    </p>
+
+    <!-- DEMO GRID -->
+    <div class="demo-grid">
+
       <a class="demo-card" href="demo-inmobiliaria">
         <div class="card-icon">🏠</div>
         <div class="card-body">
-          <div class="card-tag">Demo · Sector inmobiliario</div>
+          <div class="card-tag">Sector Inmobiliario</div>
           <div class="card-title">Agente Inmobiliario</div>
-          <div class="card-desc">
-            Consulta proyectos, precios, disponibilidad y resuelve dudas sobre compra o renta de propiedades.
-          </div>
+          <div class="card-desc">Consulta proyectos, precios y disponibilidad. Resuelve dudas sobre compra o renta de propiedades en tiempo real.</div>
         </div>
         <div class="card-footer">
           <span class="card-cta">Probar demo</span>
@@ -425,15 +457,12 @@
         </div>
       </a>
 
-      <!-- Card: Carnes -->
       <a class="demo-card" href="demo-ventacarnes">
         <div class="card-icon">🥩</div>
         <div class="card-body">
-          <div class="card-tag">Demo · Venta de carnes</div>
+          <div class="card-tag">Venta de Carnes</div>
           <div class="card-title">Asesor de Carnes</div>
-          <div class="card-desc">
-            Explora el catálogo de cortes, consulta precios y realiza pedidos directamente desde el chat.
-          </div>
+          <div class="card-desc">Explora el catálogo de cortes, consulta precios y realiza pedidos directamente desde el chat.</div>
         </div>
         <div class="card-footer">
           <span class="card-cta">Probar demo</span>
@@ -441,15 +470,12 @@
         </div>
       </a>
 
-      <!-- Card: Belleza -->
       <a class="demo-card" href="demo-salon.spa">
         <div class="card-icon">💅</div>
         <div class="card-body">
-          <div class="card-tag">Demo · Belleza & Estética</div>
+          <div class="card-tag">Belleza & Estética</div>
           <div class="card-title">Asistente de Belleza</div>
-          <div class="card-desc">
-            Conoce los servicios disponibles, precios y agenda tu cita con un asistente inteligente.
-          </div>
+          <div class="card-desc">Conoce los servicios disponibles, precios y agenda tu cita con un asistente inteligente.</div>
         </div>
         <div class="card-footer">
           <span class="card-cta">Probar demo</span>
@@ -457,11 +483,34 @@
         </div>
       </a>
 
-    </main>
-
-    <footer class="footer">Powered by IA · Demos de Prueba</footer>
-
+    </div>
   </div>
+
+  <footer>ΩCO AI · Consulting · Demos de Agentes Inteligentes</footer>
+
+</div>
+
+<script>
+  /* Partículas flotantes */
+  (function() {
+    const container = document.getElementById('particles');
+    const count = 22;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.cssText = [
+        `left: ${Math.random() * 100}%`,
+        `top: ${40 + Math.random() * 50}%`,
+        `--dur: ${5 + Math.random() * 8}s`,
+        `--delay: ${Math.random() * 6}s`,
+        `width: ${1 + Math.random() * 2}px`,
+        `height: ${1 + Math.random() * 2}px`,
+        `opacity: 0`
+      ].join(';');
+      container.appendChild(p);
+    }
+  })();
+</script>
 
 </body>
 </html>
