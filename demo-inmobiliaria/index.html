@@ -80,14 +80,12 @@
       letter-spacing:.16em;text-transform:uppercase;color:var(--green);opacity:.7;
       margin-bottom:10px;
     }
-    .sb-caps{display:flex;flex-direction:column;gap:8px;}
-    .sb-cap{display:flex;align-items:flex-start;gap:9px;font-size:.78rem;color:var(--fog);font-weight:300;line-height:1.4;}
-    .sb-cap-dot{
-      width:16px;height:16px;border-radius:5px;flex-shrink:0;margin-top:1px;
-      background:rgba(45,202,140,.12);border:1px solid rgba(45,202,140,.22);
-      display:flex;align-items:center;justify-content:center;
-    }
-    .sb-cap-dot svg{display:block;}
+    .sb-caps{display:flex;flex-direction:column;gap:7px;}
+    .sb-cap{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:rgba(45,202,140,.05);border:1px solid rgba(45,202,140,.09);border-radius:12px;transition:border-color .2s,background .2s;}
+    .sb-cap:hover{background:rgba(45,202,140,.08);border-color:rgba(45,202,140,.16);}
+    .sb-cap-emoji{font-size:17px;flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:rgba(45,202,140,.08);border:1px solid rgba(45,202,140,.13);border-radius:8px;}
+    .sb-cap-title{font-family:var(--display);font-weight:600;font-size:.75rem;color:var(--white);margin-bottom:2px;letter-spacing:-.01em;}
+    .sb-cap-desc{font-size:.69rem;line-height:1.5;color:var(--steel);font-weight:300;}
 
     .sb-tags{display:flex;flex-wrap:wrap;gap:6px;}
     .sb-tag{
@@ -273,36 +271,46 @@
         <div class="sb-section-title">Capacidades</div>
         <div class="sb-caps">
           <div class="sb-cap">
-            <div class="sb-cap-dot"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            Consulta de proyectos y disponibilidad
+            <div class="sb-cap-emoji">🕐</div>
+            <div>
+              <div class="sb-cap-title">Disponible 24/7</div>
+              <div class="sb-cap-desc">Atiende consultas en cualquier momento, sin demoras ni días de descanso.</div>
+            </div>
           </div>
           <div class="sb-cap">
-            <div class="sb-cap-dot"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            Precios y planes de financiamiento
+            <div class="sb-cap-emoji">🏗️</div>
+            <div>
+              <div class="sb-cap-title">Información de proyectos</div>
+              <div class="sb-cap-desc">Responde al instante sobre ubicación, precios, metrajes y disponibilidad de cada proyecto.</div>
+            </div>
           </div>
           <div class="sb-cap">
-            <div class="sb-cap-dot"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            Agendado de visitas presenciales
+            <div class="sb-cap-emoji">📸</div>
+            <div>
+              <div class="sb-cap-title">Fotos y videos en el chat</div>
+              <div class="sb-cap-desc">Envía material visual de los proyectos directamente en la conversación, sin salir del chat.</div>
+            </div>
           </div>
           <div class="sb-cap">
-            <div class="sb-cap-dot"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            Comparativa entre propiedades
+            <div class="sb-cap-emoji">📅</div>
+            <div>
+              <div class="sb-cap-title">Reserva de visitas</div>
+              <div class="sb-cap-desc">Agenda citas directamente en el calendario del equipo, sin llamadas ni esperas.</div>
+            </div>
           </div>
           <div class="sb-cap">
-            <div class="sb-cap-dot"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            Asesoría de compra y renta
+            <div class="sb-cap-emoji">🔔</div>
+            <div>
+              <div class="sb-cap-title">Seguimientos automáticos</div>
+              <div class="sb-cap-desc">Contacta a cada interesado en el momento justo para mantener vivo el interés y cerrar más ventas.</div>
+            </div>
           </div>
           <div class="sb-cap">
-            <div class="sb-cap-dot"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            Documentación y requisitos legales
-          </div>
-          <div class="sb-cap">
-            <div class="sb-cap-dot"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            Adjunta imágenes y documentos
-          </div>
-          <div class="sb-cap">
-            <div class="sb-cap-dot"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            Envío de mensajes de voz
+            <div class="sb-cap-emoji">👤</div>
+            <div>
+              <div class="sb-cap-title">Transferencia a un asesor</div>
+              <div class="sb-cap-desc">Detecta cuándo el cliente necesita atención humana y transfiere la conversación al instante.</div>
+            </div>
           </div>
         </div>
       </div>
