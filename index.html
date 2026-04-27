@@ -4,482 +4,421 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ΩCO AI · Demos de Agentes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+    /* ── TOKENS ── */
     :root {
-      --deep-night:  #0B1C17;
-      --dark-2:      #112219;
-      --forest:      #1A7A52;
-      --oco-green:   #2DCA8C;
-      --mint:        #5DDBA8;
-      --pale-green:  #D1F0E3;
-      --steel:       #7A9E90;
-      --fog:         #B8D0C7;
-      --white:       #FFFFFF;
-      --off-white:   #EEF4F1;
-      --font-display: 'Space Grotesk', sans-serif;
-      --font-body:    'DM Sans', sans-serif;
+      --bg:      #0B1C17;
+      --surface: #112219;
+      --forest:  #1A7A52;
+      --green:   #2DCA8C;
+      --mint:    #5DDBA8;
+      --steel:   #7A9E90;
+      --fog:     #B8D0C7;
+      --white:   #FFFFFF;
+      --off:     #EEF4F1;
+      --display: 'Space Grotesk', sans-serif;
+      --body:    'DM Sans', sans-serif;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    html, body {
-      min-height: 100%;
-      background: var(--deep-night);
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-font-smoothing: antialiased; }
+    body {
+      min-height: 100vh;
+      background: var(--bg);
       color: var(--white);
-      font-family: var(--font-body);
+      font-family: var(--body);
       overflow-x: hidden;
     }
 
-    /* ── FONDO ATMOSFÉRICO ── */
+    /* ── FONDO CAPA 1: radial glow ── */
     .bg-glow {
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background:
-        radial-gradient(ellipse 90% 70% at 75% 10%, rgba(26,122,82,0.30) 0%, transparent 55%),
-        radial-gradient(ellipse 60% 50% at 15% 85%, rgba(45,202,140,0.10) 0%, transparent 50%),
-        radial-gradient(ellipse 40% 40% at 50% 50%, rgba(11,28,23,0.0) 0%, var(--deep-night) 100%);
-      pointer-events: none;
-      z-index: 0;
+        radial-gradient(ellipse 90% 70% at 80% 4%,  rgba(26,122,82,0.32) 0%, transparent 52%),
+        radial-gradient(ellipse 60% 50% at 12% 90%, rgba(45,202,140,0.09) 0%, transparent 48%);
+      pointer-events: none; z-index: 0;
     }
 
-    /* ── ANILLOS CONCÉNTRICOS ── */
+    /* ── FONDO CAPA 2: dot grid ── */
+    .bg-grid {
+      position: fixed; inset: 0;
+      background-image: radial-gradient(rgba(45,202,140,0.07) 1px, transparent 1px);
+      background-size: 36px 36px;
+      -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 0%, transparent 78%);
+      mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 0%, transparent 78%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── ANILLOS (brand signature) ── */
     .rings-wrap {
       position: fixed;
+      right: -9%;
       top: 50%;
-      right: -120px;
-      transform: translateY(-50%);
-      width: 700px;
-      height: 700px;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.6;
+      transform: translateY(-52%);
+      width: min(680px, 54vw);
+      aspect-ratio: 1;
+      pointer-events: none; z-index: 0;
     }
-    .rings-wrap svg { width: 100%; height: 100%; animation: rotateSlow 80s linear infinite; }
-    @keyframes rotateSlow { to { transform: rotate(360deg); } }
+    .rings-wrap svg { width: 100%; height: 100%; }
+    .r-outer { animation: rSpin 100s linear infinite; transform-origin: 300px 300px; }
+    .r-mid   { animation: rSpin  65s linear infinite reverse; transform-origin: 300px 300px; }
+    .r-inner { animation: rPulse  4s ease-in-out infinite; transform-origin: 300px 300px; }
+    .c-dot   { animation: cPulse  3s ease-in-out infinite; }
+    @keyframes rSpin  { to { transform: rotate(360deg); } }
+    @keyframes rPulse { 0%,100%{opacity:1}50%{opacity:.5} }
+    @keyframes cPulse { 0%,100%{r:5;opacity:.65}50%{r:7.5;opacity:1} }
 
     /* ── PARTÍCULAS ── */
-    .particles {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
+    .ptcl-wrap { position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden; }
+    .ptcl {
+      position:absolute; border-radius:50%;
+      background:var(--green); opacity:0;
+      animation: ptclRise var(--d) var(--dl) ease-in-out infinite;
     }
-    .particle {
-      position: absolute;
-      width: 2px; height: 2px;
-      background: var(--oco-green);
-      border-radius: 50%;
-      opacity: 0;
-      animation: floatUp var(--dur) var(--delay) infinite ease-in-out;
-    }
-    @keyframes floatUp {
-      0%   { opacity: 0; transform: translateY(0) scale(1); }
-      20%  { opacity: 0.6; }
-      80%  { opacity: 0.3; }
-      100% { opacity: 0; transform: translateY(-120px) scale(0.5); }
+    @keyframes ptclRise {
+      0%   { opacity:0; transform:translateY(0) scale(1); }
+      18%  { opacity:.55; }
+      82%  { opacity:.18; }
+      100% { opacity:0; transform:translateY(-110px) scale(.4); }
     }
 
     /* ── LAYOUT ── */
     .page {
-      position: relative;
-      z-index: 1;
+      position: relative; z-index: 1;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      padding: 0 24px 64px;
+      display: flex; flex-direction: column;
+      max-width: 1080px; margin: 0 auto;
+      padding: 0 28px 72px;
     }
 
     /* ── NAV ── */
     nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 28px 0 0;
-      animation: fadeDown 0.6s ease both;
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 28px 0;
+      animation: fadeDown .55s var(--ease-out) both;
     }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
+    .logo-link { display:flex;align-items:center;gap:10px;text-decoration:none; }
+    .logo-mark {
+      width:38px;height:38px;
+      background: linear-gradient(135deg, var(--forest) 0%, var(--green) 100%);
+      border-radius:11px;
+      display:flex;align-items:center;justify-content:center;
+      font-family:var(--display);font-weight:700;font-size:19px;color:var(--white);
+      flex-shrink:0;
+      box-shadow:0 4px 18px rgba(45,202,140,.22);
     }
-    .logo-icon {
-      width: 36px; height: 36px;
-      background: linear-gradient(135deg, #1A7A52 0%, #2DCA8C 100%);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 17px;
-      color: var(--white);
-      letter-spacing: -0.02em;
-      flex-shrink: 0;
-    }
-    .logo-name {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: var(--white);
-      letter-spacing: -0.01em;
-    }
-    .nav-badge {
-      font-family: var(--font-display);
-      font-size: 0.68rem;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--steel);
-      border: 1px solid rgba(122,158,144,0.25);
-      border-radius: 100px;
-      padding: 5px 14px;
+    .logo-name { font-family:var(--display);font-weight:700;font-size:1.1rem;color:var(--white);letter-spacing:-.02em; }
+    .nav-tag {
+      font-family:var(--display);font-size:.64rem;font-weight:500;
+      letter-spacing:.15em;text-transform:uppercase;color:var(--steel);
+      border:1px solid rgba(122,158,144,.22);border-radius:100px;padding:5px 14px;
     }
 
     /* ── HERO ── */
     .hero {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 80px 0 60px;
-      max-width: 860px;
-      margin: 0 auto;
-      width: 100%;
+      flex:1;display:flex;flex-direction:column;align-items:center;
+      text-align:center; padding:72px 0 56px;
     }
 
-    .hero-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border: 1px solid rgba(45,202,140,0.20);
-      background: rgba(45,202,140,0.06);
-      border-radius: 100px;
-      padding: 6px 16px 6px 10px;
-      font-family: var(--font-display);
-      font-size: 0.70rem;
-      font-weight: 500;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--mint);
-      margin-bottom: 32px;
-      animation: fadeDown 0.7s 0.1s ease both;
+    /* badge */
+    .badge {
+      display:inline-flex;align-items:center;gap:8px;
+      border:1px solid rgba(45,202,140,.22);
+      background:rgba(45,202,140,.06);
+      border-radius:100px; padding:6px 16px 6px 10px;
+      font-family:var(--display);font-size:.68rem;font-weight:500;
+      letter-spacing:.14em;text-transform:uppercase;color:var(--mint);
+      margin-bottom:36px;
+      animation: fadeDown .65s .1s var(--ease-out) both;
     }
-    .hero-dot {
-      width: 7px; height: 7px;
-      background: var(--oco-green);
-      border-radius: 50%;
-      box-shadow: 0 0 8px var(--oco-green);
-      animation: pulse 2s infinite;
-      flex-shrink: 0;
+    .badge-dot {
+      width:7px;height:7px;background:var(--green);border-radius:50%;
+      box-shadow:0 0 8px var(--green);flex-shrink:0;
+      animation:dotPulse 2.2s ease-in-out infinite;
     }
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 8px var(--oco-green); }
-      50%       { transform: scale(0.7); opacity: 0.5; box-shadow: 0 0 4px var(--oco-green); }
+    @keyframes dotPulse {
+      0%,100%{transform:scale(1);opacity:1;box-shadow:0 0 8px var(--green);}
+      50%    {transform:scale(.65);opacity:.4;box-shadow:0 0 3px var(--green);}
     }
 
-    .hero h1 {
-      font-family: var(--font-display);
-      font-size: clamp(2.8rem, 6vw, 5rem);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      margin-bottom: 24px;
-      animation: fadeUp 0.8s 0.2s ease both;
+    /* h1 */
+    .hero-h1 {
+      font-family:var(--display);font-weight:700;
+      font-size:clamp(3rem,6.5vw,5.2rem);
+      line-height:1.04;letter-spacing:-.032em;
+      margin-bottom:28px;
+      animation: fadeUp .75s .2s var(--ease-out) both;
     }
-    .hero h1 .line-1 {
-      display: block;
-      color: var(--white);
+    .h1-l1 { display:block;color:var(--white); }
+    .h1-l2 {
+      display:block;
+      background:linear-gradient(90deg,var(--green) 0%,var(--mint) 42%,var(--green) 84%);
+      background-size:200% auto;
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+      animation:textShimmer 5s 1.2s linear infinite;
     }
-    .hero h1 .line-2 {
-      display: block;
-      background: linear-gradient(90deg, #2DCA8C 0%, #5DDBA8 50%, #2DCA8C 100%);
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: shimmerText 4s 1s linear infinite;
-    }
-    @keyframes shimmerText {
-      to { background-position: 200% center; }
+    @keyframes textShimmer { to { background-position:200% center; } }
+
+    .divider {
+      width:44px;height:1px;
+      background:linear-gradient(90deg,transparent,var(--forest),transparent);
+      margin:0 auto 28px;
+      animation:fadeIn 1s .38s both;
     }
 
-    .hero-divider {
-      width: 40px; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--forest), transparent);
-      margin: 0 auto 24px;
-      animation: fadeIn 1s 0.4s ease both;
+    .hero-p {
+      font-size:1rem;line-height:1.8;color:var(--steel);font-weight:300;
+      max-width:460px;margin:0 auto 68px;
+      animation:fadeUp .75s .34s var(--ease-out) both;
     }
 
-    .hero p {
-      font-size: 1rem;
-      line-height: 1.8;
-      color: var(--steel);
-      font-weight: 300;
-      max-width: 480px;
-      margin: 0 auto 64px;
-      animation: fadeUp 0.8s 0.35s ease both;
-    }
-
-    /* ── DEMO GRID ── */
+    /* ── GRID ── */
     .demo-grid {
-      width: 100%;
-      max-width: 980px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      animation: fadeUp 0.9s 0.5s ease both;
+      width:100%;max-width:1000px;
+      display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
     }
+    .demo-grid .card:nth-child(1){animation:fadeUp .7s .52s var(--ease-out) both;}
+    .demo-grid .card:nth-child(2){animation:fadeUp .7s .64s var(--ease-out) both;}
+    .demo-grid .card:nth-child(3){animation:fadeUp .7s .76s var(--ease-out) both;}
 
-    /* ── DEMO CARD ── */
-    .demo-card {
-      position: relative;
-      background: rgba(17, 34, 25, 0.55);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(45, 202, 140, 0.10);
-      border-radius: 22px;
-      padding: 32px 28px 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      text-decoration: none;
-      color: inherit;
-      overflow: hidden;
-      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-      cursor: pointer;
+    /* ── CARD ── */
+    .card {
+      position:relative;
+      background:rgba(17,34,25,.52);
+      backdrop-filter:blur(28px) saturate(1.5);
+      -webkit-backdrop-filter:blur(28px) saturate(1.5);
+      border:1px solid rgba(45,202,140,.09);
+      border-radius:22px;
+      padding:32px 28px 28px;
+      display:flex;flex-direction:column;gap:20px;
+      text-decoration:none;color:inherit;
+      overflow:hidden;
+      outline:none;
+      transition:
+        border-color .3s ease,
+        transform .38s var(--ease-out),
+        box-shadow .35s ease;
     }
-    .demo-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(45,202,140,0.08) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.4s;
-      pointer-events: none;
+    /* top accent line */
+    .card::before {
+      content:'';position:absolute;
+      top:0;left:8%;right:8%;height:1px;
+      background:linear-gradient(90deg,transparent,rgba(45,202,140,.55),transparent);
+      opacity:0;transition:opacity .3s;
     }
-    .demo-card::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 10%; right: 10%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(45,202,140,0.5), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
+    /* inner radial glow */
+    .card::after {
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse 80% 55% at 50% 0%,rgba(45,202,140,.08) 0%,transparent 72%);
+      opacity:0;transition:opacity .4s;pointer-events:none;
     }
-    .demo-card:hover {
-      border-color: rgba(45, 202, 140, 0.30);
-      transform: translateY(-6px);
-      box-shadow: 0 32px 64px rgba(0,0,0,0.35), 0 0 40px rgba(45,202,140,0.06);
+    .card:hover, .card:focus-visible {
+      border-color:rgba(45,202,140,.30);
+      transform:translateY(-7px);
+      box-shadow:0 30px 64px rgba(0,0,0,.40),0 0 48px rgba(45,202,140,.055);
     }
-    .demo-card:hover::before { opacity: 1; }
-    .demo-card:hover::after  { opacity: 1; }
+    .card:hover::before,.card:focus-visible::before{opacity:1;}
+    .card:hover::after, .card:focus-visible::after {opacity:1;}
+    .card:focus-visible{outline:2px solid var(--green);outline-offset:3px;}
 
-    /* Card icon */
-    .card-icon {
-      width: 54px; height: 54px;
-      border-radius: 15px;
-      background: rgba(26,122,82,0.20);
-      border: 1px solid rgba(45,202,140,0.18);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      transition: background 0.3s, transform 0.3s;
-      flex-shrink: 0;
+    /* icon */
+    .c-icon {
+      width:52px;height:52px;
+      background:rgba(26,122,82,.18);
+      border:1px solid rgba(45,202,140,.16);
+      border-radius:15px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:24px;flex-shrink:0;
+      transition:background .3s,transform .35s var(--ease-out);
     }
-    .demo-card:hover .card-icon {
-      background: rgba(45,202,140,0.15);
-      transform: scale(1.08);
-    }
+    .card:hover .c-icon,.card:focus-visible .c-icon{background:rgba(45,202,140,.14);transform:scale(1.07);}
 
-    .card-body { flex: 1; }
-    .card-tag {
-      font-family: var(--font-display);
-      font-size: 0.62rem;
-      font-weight: 500;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--oco-green);
-      margin-bottom: 10px;
-      opacity: 0.8;
+    .c-body{flex:1;}
+    .c-tag {
+      font-family:var(--display);font-size:.6rem;font-weight:500;
+      letter-spacing:.15em;text-transform:uppercase;
+      color:var(--green);opacity:.78;margin-bottom:9px;
     }
-    .card-title {
-      font-family: var(--font-display);
-      font-size: 1.2rem;
-      font-weight: 700;
-      line-height: 1.2;
-      color: var(--white);
-      margin-bottom: 10px;
-      letter-spacing: -0.02em;
+    .c-title {
+      font-family:var(--display);font-size:1.18rem;font-weight:700;
+      line-height:1.2;letter-spacing:-.022em;color:var(--white);margin-bottom:10px;
     }
-    .card-desc {
-      font-size: 0.83rem;
-      line-height: 1.65;
-      color: var(--steel);
-      font-weight: 300;
-    }
+    .c-desc { font-size:.82rem;line-height:1.68;color:var(--steel);font-weight:300; }
 
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 18px;
-      border-top: 1px solid rgba(45,202,140,0.08);
+    .c-foot {
+      display:flex;align-items:center;justify-content:space-between;
+      padding-top:18px;border-top:1px solid rgba(45,202,140,.07);
     }
-    .card-cta {
-      font-family: var(--font-display);
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--fog);
-      letter-spacing: 0.02em;
-      transition: color 0.2s;
+    .c-cta {
+      font-family:var(--display);font-size:.78rem;font-weight:600;
+      color:var(--fog);letter-spacing:.02em;transition:color .2s;
     }
-    .demo-card:hover .card-cta { color: var(--oco-green); }
+    .card:hover .c-cta,.card:focus-visible .c-cta{color:var(--green);}
 
-    .card-arrow {
-      width: 30px; height: 30px;
-      border-radius: 50%;
-      background: rgba(45,202,140,0.08);
-      border: 1px solid rgba(45,202,140,0.18);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--oco-green);
-      font-size: 12px;
-      transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+    .c-arrow {
+      width:30px;height:30px;border-radius:50%;
+      background:rgba(45,202,140,.07);
+      border:1px solid rgba(45,202,140,.16);
+      display:flex;align-items:center;justify-content:center;
+      color:var(--green);flex-shrink:0;
+      transition:background .25s,color .25s,transform .28s var(--ease-out),box-shadow .25s;
     }
-    .demo-card:hover .card-arrow {
-      background: var(--oco-green);
-      color: var(--deep-night);
-      transform: translateX(3px);
-      box-shadow: 0 0 16px rgba(45,202,140,0.4);
+    .card:hover .c-arrow,.card:focus-visible .c-arrow{
+      background:var(--green);color:var(--bg);
+      transform:translateX(3px);
+      box-shadow:0 0 18px rgba(45,202,140,.40);
     }
 
     /* ── FOOTER ── */
     footer {
-      text-align: center;
-      padding-top: 56px;
-      font-family: var(--font-display);
-      font-size: 0.65rem;
-      font-weight: 500;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: rgba(122,158,144,0.45);
-      animation: fadeIn 1.2s 0.8s ease both;
+      text-align:center;padding-top:60px;
+      font-family:var(--display);font-size:.63rem;font-weight:500;
+      letter-spacing:.16em;text-transform:uppercase;
+      color:rgba(122,158,144,.38);
+      animation:fadeIn 1.2s .85s both;
     }
 
     /* ── KEYFRAMES ── */
-    @keyframes fadeUp   { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:none; } }
-    @keyframes fadeDown { from { opacity:0; transform:translateY(-14px);} to { opacity:1; transform:none; } }
-    @keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
+    @keyframes fadeUp   {from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+    @keyframes fadeDown {from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+    @keyframes fadeIn   {from{opacity:0}to{opacity:1}}
+
+    /* ── REDUCED MOTION ── */
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.1ms!important;}
+    }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 860px) {
-      .demo-grid { grid-template-columns: repeat(2,1fr); }
+    @media(max-width:860px){
+      .demo-grid{grid-template-columns:repeat(2,1fr);}
+      .rings-wrap{width:min(500px,60vw);opacity:.45;}
     }
-    @media (max-width: 560px) {
-      .demo-grid { grid-template-columns: 1fr; }
-      .hero h1   { font-size: 2.4rem; }
-      .hero p    { margin-bottom: 44px; }
+    @media(max-width:560px){
+      .demo-grid{grid-template-columns:1fr;}
+      .hero-h1{font-size:2.6rem;}
+      .page{padding:0 18px 56px;}
+      .rings-wrap{display:none;}
     }
   </style>
 </head>
 <body>
 
-<!-- Fondo -->
-<div class="bg-glow"></div>
+<div class="bg-glow"  aria-hidden="true"></div>
+<div class="bg-grid"  aria-hidden="true"></div>
 
-<!-- Anillos -->
-<div class="rings-wrap">
+<!-- Anillos concéntricos (elemento signature Oco AI) -->
+<div class="rings-wrap" aria-hidden="true">
   <svg viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="300" cy="300" r="90"  stroke="rgba(45,202,140,0.12)" stroke-width="1"/>
-    <circle cx="300" cy="300" r="160" stroke="rgba(45,202,140,0.09)" stroke-width="1"/>
-    <circle cx="300" cy="300" r="230" stroke="rgba(45,202,140,0.06)" stroke-width="1"/>
-    <circle cx="300" cy="300" r="300" stroke="rgba(45,202,140,0.04)" stroke-width="1"/>
-    <circle cx="300" cy="300" r="7"   fill="rgba(45,202,140,0.4)"/>
-    <line x1="300" y1="210" x2="300" y2="190" stroke="rgba(45,202,140,0.15)" stroke-width="1"/>
-    <line x1="390" y1="300" x2="410" y2="300" stroke="rgba(45,202,140,0.10)" stroke-width="1"/>
+    <!-- Anillo externo con ticks -->
+    <g class="r-outer">
+      <circle cx="300" cy="300" r="278" stroke="rgba(45,202,140,0.038)" stroke-width="1"/>
+      <line x1="300" y1="23"  x2="300" y2="8"   stroke="rgba(45,202,140,0.18)" stroke-width="1"/>
+      <line x1="577" y1="300" x2="592" y2="300"  stroke="rgba(45,202,140,0.12)" stroke-width="1"/>
+      <line x1="300" y1="577" x2="300" y2="592"  stroke="rgba(45,202,140,0.10)" stroke-width="1"/>
+      <line x1="23"  y1="300" x2="8"   y2="300"  stroke="rgba(45,202,140,0.10)" stroke-width="1"/>
+      <!-- diagonales -->
+      <line x1="499" y1="101" x2="508" y2="92"   stroke="rgba(45,202,140,0.07)" stroke-width="1"/>
+      <line x1="101" y1="499" x2="92"  y2="508"  stroke="rgba(45,202,140,0.07)" stroke-width="1"/>
+    </g>
+    <!-- Anillo medio -->
+    <g class="r-mid">
+      <circle cx="300" cy="300" r="198" stroke="rgba(45,202,140,0.058)" stroke-width="1"/>
+      <line x1="300" y1="103" x2="300" y2="94"   stroke="rgba(45,202,140,0.20)" stroke-width="1"/>
+      <line x1="497" y1="300" x2="506" y2="300"  stroke="rgba(45,202,140,0.14)" stroke-width="1"/>
+    </g>
+    <!-- Anillo 3 -->
+    <circle cx="300" cy="300" r="130" stroke="rgba(45,202,140,0.08)" stroke-width="1"/>
+    <!-- Anillo interior pulsante -->
+    <g class="r-inner">
+      <circle cx="300" cy="300" r="70" stroke="rgba(45,202,140,0.13)" stroke-width="1"/>
+    </g>
+    <!-- Centro -->
+    <circle cx="300" cy="300" r="14" stroke="rgba(45,202,140,0.14)" stroke-width="1"/>
+    <circle class="c-dot" cx="300" cy="300" r="5" fill="rgba(45,202,140,0.60)"/>
   </svg>
 </div>
 
-<!-- Partículas -->
-<div class="particles" id="particles"></div>
+<!-- Partículas flotantes -->
+<div class="ptcl-wrap" id="ptcl" aria-hidden="true"></div>
 
 <div class="page">
 
-  <!-- NAV -->
   <nav>
-    <a href="#" class="logo">
-      <div class="logo-icon">Ω</div>
+    <a href="#" class="logo-link" aria-label="ΩCO AI — inicio">
+      <div class="logo-mark" aria-hidden="true">Ω</div>
       <span class="logo-name">ΩCO AI</span>
     </a>
-    <span class="nav-badge">Demos · 2025</span>
+    <span class="nav-tag" aria-hidden="true">Demos · 2025</span>
   </nav>
 
-  <!-- HERO -->
   <div class="hero">
-    <div class="hero-label">
-      <span class="hero-dot"></span>
+    <div class="badge" role="status" aria-live="polite">
+      <span class="badge-dot" aria-hidden="true"></span>
       Demos interactivas disponibles
     </div>
 
-    <h1>
-      <span class="line-1">Agentes de IA</span>
-      <span class="line-2">para tu industria</span>
+    <h1 class="hero-h1">
+      <span class="h1-l1">Agentes de IA</span>
+      <span class="h1-l2">para tu industria</span>
     </h1>
 
-    <div class="hero-divider"></div>
+    <div class="divider" aria-hidden="true"></div>
 
-    <p>
-      Explora nuestras demos en vivo. Cada agente está diseñado para
-      un rubro específico y conectado en tiempo real con inteligencia artificial.
+    <p class="hero-p">
+      Explora nuestras demos en vivo. Cada agente está diseñado
+      para un rubro específico y conectado en tiempo real con inteligencia artificial.
     </p>
 
-    <!-- DEMO GRID -->
-    <div class="demo-grid">
+    <!-- Demo cards -->
+    <div class="demo-grid" role="list">
 
-      <a class="demo-card" href="demo-inmobiliaria">
-        <div class="card-icon">🏠</div>
-        <div class="card-body">
-          <div class="card-tag">Sector Inmobiliario</div>
-          <div class="card-title">Agente Inmobiliario</div>
-          <div class="card-desc">Consulta proyectos, precios y disponibilidad. Resuelve dudas sobre compra o renta de propiedades en tiempo real.</div>
+      <a class="card" href="demo-inmobiliaria" role="listitem" aria-label="Demo Agente Inmobiliario — probar">
+        <div class="c-icon" aria-hidden="true">🏠</div>
+        <div class="c-body">
+          <div class="c-tag">Sector Inmobiliario</div>
+          <div class="c-title">Agente Inmobiliario</div>
+          <p class="c-desc">Consulta proyectos, precios y disponibilidad. Resuelve dudas sobre compra o renta de propiedades en tiempo real.</p>
         </div>
-        <div class="card-footer">
-          <span class="card-cta">Probar demo</span>
-          <span class="card-arrow">→</span>
+        <div class="c-foot">
+          <span class="c-cta">Probar demo</span>
+          <span class="c-arrow" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          </span>
         </div>
       </a>
 
-      <a class="demo-card" href="demo-ventacarnes">
-        <div class="card-icon">🥩</div>
-        <div class="card-body">
-          <div class="card-tag">Venta de Carnes</div>
-          <div class="card-title">Asesor de Carnes</div>
-          <div class="card-desc">Explora el catálogo de cortes, consulta precios y realiza pedidos directamente desde el chat.</div>
+      <a class="card" href="demo-ventacarnes" role="listitem" aria-label="Demo Asesor de Carnes — probar">
+        <div class="c-icon" aria-hidden="true">🥩</div>
+        <div class="c-body">
+          <div class="c-tag">Venta de Carnes</div>
+          <div class="c-title">Asesor de Carnes</div>
+          <p class="c-desc">Explora el catálogo de cortes, consulta precios y realiza pedidos directamente desde el chat.</p>
         </div>
-        <div class="card-footer">
-          <span class="card-cta">Probar demo</span>
-          <span class="card-arrow">→</span>
+        <div class="c-foot">
+          <span class="c-cta">Probar demo</span>
+          <span class="c-arrow" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          </span>
         </div>
       </a>
 
-      <a class="demo-card" href="demo-salon.spa">
-        <div class="card-icon">💅</div>
-        <div class="card-body">
-          <div class="card-tag">Belleza & Estética</div>
-          <div class="card-title">Asistente de Belleza</div>
-          <div class="card-desc">Conoce los servicios disponibles, precios y agenda tu cita con un asistente inteligente.</div>
+      <a class="card" href="demo-salon.spa" role="listitem" aria-label="Demo Asistente de Belleza — probar">
+        <div class="c-icon" aria-hidden="true">💅</div>
+        <div class="c-body">
+          <div class="c-tag">Belleza & Estética</div>
+          <div class="c-title">Asistente de Belleza</div>
+          <p class="c-desc">Conoce servicios disponibles, precios y agenda tu cita con un asistente inteligente.</p>
         </div>
-        <div class="card-footer">
-          <span class="card-cta">Probar demo</span>
-          <span class="card-arrow">→</span>
+        <div class="c-foot">
+          <span class="c-cta">Probar demo</span>
+          <span class="c-arrow" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          </span>
         </div>
       </a>
 
@@ -491,25 +430,16 @@
 </div>
 
 <script>
-  /* Partículas flotantes */
-  (function() {
-    const container = document.getElementById('particles');
-    const count = 22;
-    for (let i = 0; i < count; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      p.style.cssText = [
-        `left: ${Math.random() * 100}%`,
-        `top: ${40 + Math.random() * 50}%`,
-        `--dur: ${5 + Math.random() * 8}s`,
-        `--delay: ${Math.random() * 6}s`,
-        `width: ${1 + Math.random() * 2}px`,
-        `height: ${1 + Math.random() * 2}px`,
-        `opacity: 0`
-      ].join(';');
-      container.appendChild(p);
-    }
-  })();
+(function(){
+  const w=document.getElementById('ptcl');
+  for(let i=0;i<26;i++){
+    const p=document.createElement('div');
+    p.className='ptcl';
+    const s=1.2+Math.random()*1.8;
+    p.style.cssText=`left:${Math.random()*100}%;top:${38+Math.random()*52}%;width:${s}px;height:${s}px;--d:${6+Math.random()*10}s;--dl:${Math.random()*9}s`;
+    w.appendChild(p);
+  }
+})();
 </script>
 
 </body>
