@@ -251,32 +251,63 @@
     /* ── REDUCED MOTION ── */
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.1ms!important;}}
 
-    /* ── 768px: tablet / móvil ── */
+    /* ── CTA scroll-to-chat (solo móvil) ── */
+    .mob-scroll-cta{display:none;}
+
+    /* ── MÓVIL: dos secciones — info primero, chat al hacer scroll ── */
     @media(max-width:768px){
-      .sidebar{display:none;}
-      .mob-bar{display:flex;}
-      .mob-info{display:flex;}
-      .page-wrap{height:100vh;height:100dvh;padding:0 16px;}
-      .app{height:100vh;height:100dvh;}
+      /* página scrollable a nivel body */
+      html,body{height:auto!important;overflow-y:auto!important;overflow-x:hidden!important;}
+
+      /* contenedor vertical */
+      .page-wrap{flex-direction:column;height:auto;padding:0 16px;gap:0;}
+
+      /* Sección 1: sidebar visible como pantalla de info */
+      .sidebar{display:flex!important;width:100%;min-height:100dvh;padding:20px 0 24px;flex-shrink:0;}
+      .sb-card{overflow:visible;max-height:none;}
+
+      /* Botón "Iniciar chat" */
+      .mob-scroll-cta{
+        display:flex;align-items:center;justify-content:center;gap:8px;
+        padding:13px 24px;margin-top:4px;
+        background:var(--green);border-radius:14px;
+        font-family:var(--display);font-weight:600;font-size:.88rem;color:var(--bg);
+        text-decoration:none;
+        transition:background .2s,transform .18s var(--ease-out);
+      }
+      .mob-scroll-cta:hover,.mob-scroll-cta:active{background:var(--mint);transform:translateY(-1px);}
+
+      /* Sección 2: chat como pantalla completa */
+      .app{height:100dvh;flex-shrink:0;overflow:hidden;}
+
+      /* Ocultar elementos de intento anterior */
+      .mob-bar{display:none!important;}
+      .mob-info{display:none!important;}
+
+      /* Header compacto */
       header{padding:12px 0 10px;}
+      .logo-name{display:none;}
       .hd-title{font-size:.80rem;}
       .hd-sub{font-size:.60rem;}
+
+      /* Input con safe-area */
       .input-area{padding:8px 0;padding-bottom:max(16px,env(safe-area-inset-bottom));}
       .icon-btn{width:36px;height:36px;}
       .btn-send{width:40px;height:40px;border-radius:12px;}
+      #msgInput{font-size:1rem;}
+
+      /* Mensajes */
+      .msg{max-width:90%;}
+      .bubble{font-size:.84rem;padding:10px 13px;}
+      .chat{padding:14px 0 8px;}
+    }
+
+    /* ── 480px: ajustes extra ── */
+    @media(max-width:480px){
+      .page-wrap{padding:0 12px;}
       .welcome{padding:16px 14px 14px;}
       .w-icon{width:46px;height:46px;font-size:22px;}
       .suggest-btn{font-size:.70rem;padding:7px 14px;}
-    }
-
-    /* ── 480px: teléfono pequeño ── */
-    @media(max-width:480px){
-      .msg{max-width:90%;}
-      .bubble{font-size:.84rem;padding:10px 13px;}
-      #msgInput{font-size:1rem;}
-      .page-wrap{padding:0 12px;}
-      .logo-name{display:none;}
-      .chat{padding:14px 0 8px;}
     }
   </style>
 </head>
@@ -358,6 +389,11 @@
         </div>
       </div>
 
+      <a href="#chat-section" class="mob-scroll-cta" aria-label="Ir al chat">
+        Iniciar chat
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+      </a>
+
       <div class="sb-footer">
         <div class="sb-foot-mark" aria-hidden="true">Ω</div>
         <div class="sb-foot-text">
@@ -370,7 +406,7 @@
   </aside>
 
   <!-- ── CHAT ── -->
-  <div class="app">
+  <div class="app" id="chat-section">
 
     <header>
       <a href="../" class="btn-back" aria-label="Volver a demos">
