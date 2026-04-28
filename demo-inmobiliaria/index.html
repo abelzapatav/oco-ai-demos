@@ -161,14 +161,19 @@
     .w-icon{width:54px;height:54px;font-size:26px;background:rgba(45,202,140,.10);border:1px solid rgba(45,202,140,.18);border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
     .w-title{font-family:var(--display);font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px;letter-spacing:-.02em;}
     .w-sub{font-size:.81rem;line-height:1.65;color:var(--steel);font-weight:300;max-width:340px;}
+    .w-hint{display:flex;align-items:center;gap:10px;margin:18px 0 10px;width:100%;}
+    .w-hint-line{flex:1;height:1px;background:rgba(45,202,140,.13);}
+    .w-hint-text{font-size:.63rem;color:var(--steel);font-weight:400;letter-spacing:.07em;white-space:nowrap;opacity:.85;}
     .suggest-btn{
-      margin-top:16px;display:inline-flex;align-items:center;gap:8px;
-      background:rgba(45,202,140,.08);border:1px solid rgba(45,202,140,.18);
-      border-radius:100px;padding:8px 18px;
-      font-family:var(--display);font-size:.74rem;font-weight:500;color:var(--mint);cursor:pointer;
-      transition:background .2s,border-color .2s,transform .2s var(--ease-out);outline:none;
+      margin-top:0;width:100%;display:flex;align-items:center;justify-content:center;gap:9px;
+      background:rgba(45,202,140,.10);border:1px solid rgba(45,202,140,.30);
+      border-radius:14px;padding:13px 20px;
+      font-family:var(--display);font-size:.82rem;font-weight:600;color:var(--white);cursor:pointer;
+      transition:background .2s,border-color .2s,transform .2s var(--ease-out),box-shadow .2s;outline:none;
+      animation:suggestPulse 3s 2s ease-in-out infinite;
     }
-    .suggest-btn:hover,.suggest-btn:focus-visible{background:rgba(45,202,140,.14);border-color:rgba(45,202,140,.35);transform:translateY(-1px);}
+    @keyframes suggestPulse{0%,100%{box-shadow:0 0 0 0 rgba(45,202,140,0);border-color:rgba(45,202,140,.30);}50%{box-shadow:0 0 0 5px rgba(45,202,140,.09);border-color:rgba(45,202,140,.55);}}
+    .suggest-btn:hover,.suggest-btn:focus-visible{background:rgba(45,202,140,.18);border-color:rgba(45,202,140,.52);transform:translateY(-2px);box-shadow:0 6px 20px rgba(45,202,140,.18);animation:none;}
     .suggest-btn:focus-visible{outline:2px solid var(--green);outline-offset:2px;}
 
     /* ── messages ── */
@@ -502,8 +507,13 @@
         <div class="w-icon" aria-hidden="true">🏠</div>
         <div class="w-title">Agente Inmobiliario ΩCO AI</div>
         <p class="w-sub">Consulta proyectos, precios y disponibilidad. Estoy listo para ayudarte a encontrar la propiedad ideal.</p>
+        <div class="w-hint" aria-hidden="true">
+          <span class="w-hint-line"></span>
+          <span class="w-hint-text">inicia aquí tu conversación</span>
+          <span class="w-hint-line"></span>
+        </div>
         <button class="suggest-btn" onclick="injectSuggestion()" type="button">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           Consultar sobre Residencia Prime
         </button>
       </div>
@@ -597,7 +607,7 @@ function playAudio(btn,url){if(!url)return;const a=new Audio(url);a.play();btn.i
 async function doFetch(text,attachments){
   const payload_files=await Promise.all((attachments||[]).map(async f=>{const data=f.dataUrl?f.dataUrl.split(',')[1]:await f64(f.file);return{name:f.name,mimeType:(f.file&&f.file.type)||'application/octet-stream',size:f.size,data};}));
   const payload={sessionId:getSession(),messageId:crypto.randomUUID(),message:text||'',timestamp:new Date().toISOString(),files:payload_files};
-  try{showTyping();const res=await fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const ct=res.headers.get('content-type')||'',raw=await res.text();if(!raw||!raw.trim()){hideTyping();return;}
+  try{showTyping();const res=await fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const ct=res.headers.get('content-type')||'',raw=await res.text();if(!raw||!raw.trim()){hideTyping();return;}if(!res.ok){hideTyping();appendMsg('agent','⚠️ No pude conectarme en este momento. Por favor intenta de nuevo.');return;}
   if(ct.includes('application/json')){const data=JSON.parse(raw);
     if(data.chunks&&Array.isArray(data.chunks)&&data.chunks.length>0){hideTyping();data.chunks.forEach((chunk,i)=>{setTimeout(()=>{showTyping();setTimeout(()=>{hideTyping();appendMsg('agent',chunk);},800);},i*2000);});
       if(data.files&&Array.isArray(data.files)){const delay=data.chunks.length*2000+900;data.files.forEach(f=>{setTimeout(()=>{const chat=document.getElementById('chat'),typing=document.getElementById('typing');const wrap=document.createElement('div');wrap.className='msg agent';const time=document.createElement('span');time.className='msg-time';time.textContent=fmtTime(new Date());const isImg=f.mimeType?.startsWith('image/'),isVid=f.mimeType?.startsWith('video/'),isPdf=f.mimeType==='application/pdf';if(isImg&&f.url){wrap.innerHTML=`<div style="max-width:260px;border-radius:14px;overflow:hidden;border:1px solid rgba(45,202,140,.15);"><img src="${f.url}" style="width:100%;display:block;cursor:pointer;" onclick="window.open('${f.url}','_blank')" alt="${esc(f.name||'Imagen')}" onerror="this.parentElement.innerHTML='<div style=padding:12px;color:var(--steel)>⚠️ Error al cargar</div>'"/>${f.name?`<div style="padding:6px 10px;font-size:.72rem;color:var(--steel);">${esc(f.name)}</div>`:''}</div>`;}else if(isVid&&f.url){wrap.innerHTML=`<div style="max-width:320px;border-radius:14px;overflow:hidden;border:1px solid rgba(45,202,140,.15);"><iframe src="${f.url}" style="width:100%;height:180px;border:none;" allow="autoplay" allowfullscreen title="${esc(f.name||'Video')}"></iframe></div>`;}else if(isPdf&&f.downloadUrl){wrap.innerHTML=`<div style="max-width:275px;border-radius:14px;overflow:hidden;border:1px solid rgba(45,202,140,.11);background:rgba(17,34,25,.78);"><div style="display:flex;align-items:center;gap:12px;padding:12px 14px;"><span style="font-size:26px">📄</span><div><div style="font-size:.80rem;color:var(--white);">${esc(f.name||'Documento.pdf')}</div><div style="font-size:.68rem;color:var(--steel);">PDF</div></div></div><a href="${f.downloadUrl}" target="_blank" style="display:block;padding:9px;text-align:center;font-size:.76rem;color:var(--green);text-decoration:none;border-top:1px solid rgba(45,202,140,.08);">⬇ Descargar</a></div>`;}if(wrap.innerHTML){wrap.appendChild(time);chat.insertBefore(wrap,typing);toBottom();}},delay);});}}
