@@ -557,7 +557,7 @@
 <input type="file" id="fileIn" accept=".pdf,.doc,.docx,.xls,.xlsx,.txt,.png,.jpg,.jpeg" multiple onchange="handleDocFile(event)" aria-hidden="true" />
 
 <script>
-const WEBHOOK_URL = "PLACEHOLDER_WEBHOOK_INMOBILIARIA";
+const WEBHOOK_URL = "https://wwebhookw.omegaconsultingai.com/webhook/demo-inmo-web";
 function getSession(){const K='inmo_sid';let id=localStorage.getItem(K);if(!id){id=crypto.randomUUID();localStorage.setItem(K,id);}return id;}
 let files=[],isRec=false,mr=null,chunks=[],stream=null,actx=null,an=null,raf=null,t0=null,tmr=null;
 function injectSuggestion(){const el=document.getElementById('msgInput');el.value='Hola, quisiera información del proyecto Residencia Prime';autoResize(el);sendMessage();}
