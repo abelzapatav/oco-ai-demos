@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Agente Inmobiliario · ΩCO AI</title>
+  <title>Agente Inmobiliario · OCO AI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
@@ -103,7 +103,7 @@
       width:24px;height:24px;border-radius:7px;flex-shrink:0;
       background:linear-gradient(135deg,var(--forest),var(--green));
       display:flex;align-items:center;justify-content:center;
-      font-family:var(--display);font-weight:700;font-size:11px;color:var(--white);
+      font-family:var(--display);font-weight:700;font-size:11px;color:var(--white);overflow:hidden;
     }
     .sb-foot-text{font-size:.65rem;color:var(--steel);font-weight:300;line-height:1.3;}
     .sb-foot-text strong{color:var(--fog);font-weight:500;}
@@ -134,7 +134,7 @@
       width:30px;height:30px;border-radius:8px;
       background:linear-gradient(135deg,var(--forest),var(--green));
       display:flex;align-items:center;justify-content:center;
-      font-family:var(--display);font-weight:700;font-size:14px;color:var(--white);flex-shrink:0;
+      font-family:var(--display);font-weight:700;font-size:14px;color:var(--white);flex-shrink:0;overflow:hidden;
     }
     .logo-name{font-family:var(--display);font-weight:700;font-size:.9rem;color:var(--white);letter-spacing:-.01em;}
 
@@ -395,9 +395,9 @@
       </div>
 
       <div class="sb-footer">
-        <div class="sb-foot-mark" aria-hidden="true">Ω</div>
+        <div class="sb-foot-mark" aria-hidden="true"><img src="https://raw.githubusercontent.com/abelzapatav/Media-/main/LOGO-OCO-AI-redes.jpg" alt="OCO AI" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
         <div class="sb-foot-text">
-          <strong>ΩCO AI</strong> · Demo 2026<br>
+          <strong>OCO AI</strong> · Demo 2026<br>
           Agente con IA en tiempo real
         </div>
       </div>
@@ -412,9 +412,9 @@
       <a href="../" class="btn-back" aria-label="Volver a demos">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
       </a>
-      <a href="../" class="logo-link" aria-label="ΩCO AI inicio">
-        <div class="logo-mark" aria-hidden="true">Ω</div>
-        <span class="logo-name">ΩCO AI</span>
+      <a href="../" class="logo-link" aria-label="OCO AI inicio">
+        <div class="logo-mark" aria-hidden="true"><img src="https://raw.githubusercontent.com/abelzapatav/Media-/main/LOGO-OCO-AI-redes.jpg" alt="OCO AI" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+        <span class="logo-name">OCO AI</span>
       </a>
       <div class="hd-sep"></div>
       <div class="hd-info">
@@ -428,7 +428,7 @@
       <div class="mob-icon" aria-hidden="true">🏠</div>
       <div>
         <div class="mob-name">Agente Inmobiliario</div>
-        <div class="mob-sub">Sector Inmobiliario · ΩCO AI</div>
+        <div class="mob-sub">Sector Inmobiliario · OCO AI</div>
       </div>
     </div>
 
@@ -505,7 +505,7 @@
 
       <div class="welcome">
         <div class="w-icon" aria-hidden="true">🏠</div>
-        <div class="w-title">Agente Inmobiliario ΩCO AI</div>
+        <div class="w-title">Agente Inmobiliario OCO AI</div>
         <p class="w-sub">Consulta proyectos, precios y disponibilidad. Estoy listo para ayudarte a encontrar la propiedad ideal.</p>
         <div class="w-hint" aria-hidden="true">
           <span class="w-hint-line"></span>
@@ -557,7 +557,7 @@
 <input type="file" id="fileIn" accept=".pdf,.doc,.docx,.xls,.xlsx,.txt,.png,.jpg,.jpeg" multiple onchange="handleDocFile(event)" aria-hidden="true" />
 
 <script>
-const WEBHOOK_URL = "https://wwebhookw.omegaconsultingai.com/webhook/demo-inmo-web";
+const WEBHOOK_URL = "PLACEHOLDER_WEBHOOK_INMOBILIARIA";
 function getSession(){const K='inmo_sid';let id=localStorage.getItem(K);if(!id){id=crypto.randomUUID();localStorage.setItem(K,id);}return id;}
 let files=[],isRec=false,mr=null,chunks=[],stream=null,actx=null,an=null,raf=null,t0=null,tmr=null;
 function injectSuggestion(){const el=document.getElementById('msgInput');el.value='Hola, quisiera información del proyecto Residencia Prime';autoResize(el);sendMessage();}
@@ -611,7 +611,7 @@ async function doFetch(text,attachments){
   if(ct.includes('application/json')){const data=JSON.parse(raw);
     if(data.chunks&&Array.isArray(data.chunks)&&data.chunks.length>0){hideTyping();data.chunks.forEach((chunk,i)=>{setTimeout(()=>{showTyping();setTimeout(()=>{hideTyping();appendMsg('agent',chunk);},800);},i*2000);});
       if(data.files&&Array.isArray(data.files)){const delay=data.chunks.length*2000+900;data.files.forEach(f=>{setTimeout(()=>{const chat=document.getElementById('chat'),typing=document.getElementById('typing');const wrap=document.createElement('div');wrap.className='msg agent';const time=document.createElement('span');time.className='msg-time';time.textContent=fmtTime(new Date());const isImg=f.mimeType?.startsWith('image/'),isVid=f.mimeType?.startsWith('video/'),isPdf=f.mimeType==='application/pdf';if(isImg&&f.url){wrap.innerHTML=`<div style="max-width:260px;border-radius:14px;overflow:hidden;border:1px solid rgba(45,202,140,.15);"><img src="${f.url}" style="width:100%;display:block;cursor:pointer;" onclick="window.open('${f.url}','_blank')" alt="${esc(f.name||'Imagen')}" onerror="this.parentElement.innerHTML='<div style=padding:12px;color:var(--steel)>⚠️ Error al cargar</div>'"/>${f.name?`<div style="padding:6px 10px;font-size:.72rem;color:var(--steel);">${esc(f.name)}</div>`:''}</div>`;}else if(isVid&&f.url){wrap.innerHTML=`<div style="max-width:320px;border-radius:14px;overflow:hidden;border:1px solid rgba(45,202,140,.15);"><iframe src="${f.url}" style="width:100%;height:180px;border:none;" allow="autoplay" allowfullscreen title="${esc(f.name||'Video')}"></iframe></div>`;}else if(isPdf&&f.downloadUrl){wrap.innerHTML=`<div style="max-width:275px;border-radius:14px;overflow:hidden;border:1px solid rgba(45,202,140,.11);background:rgba(17,34,25,.78);"><div style="display:flex;align-items:center;gap:12px;padding:12px 14px;"><span style="font-size:26px">📄</span><div><div style="font-size:.80rem;color:var(--white);">${esc(f.name||'Documento.pdf')}</div><div style="font-size:.68rem;color:var(--steel);">PDF</div></div></div><a href="${f.downloadUrl}" target="_blank" style="display:block;padding:9px;text-align:center;font-size:.76rem;color:var(--green);text-decoration:none;border-top:1px solid rgba(45,202,140,.08);">⬇ Descargar</a></div>`;}if(wrap.innerHTML){wrap.appendChild(time);chat.insertBefore(wrap,typing);toBottom();}},delay);});}}
-    else{const reply=data.output||data.message||data.response||data.text||(Array.isArray(data)&&data[0]?.output)||JSON.stringify(data);hideTyping();appendMsg('agent',reply||'...');}
+    else{const reply=data.output||data.message||data.response||data.text||(Array.isArray(data)&&data[0]?.output)||JSON.stringify(data);hideTyping();if(reply)appendMsg('agent',reply);if(data.files&&Array.isArray(data.files)&&data.files.length>0){data.files.forEach(f=>{setTimeout(()=>{const chat=document.getElementById('chat'),typing=document.getElementById('typing');const wrap=document.createElement('div');wrap.className='msg agent';const time=document.createElement('span');time.className='msg-time';time.textContent=fmtTime(new Date());const isImg=f.mimeType?.startsWith('image/'),isVid=f.mimeType?.startsWith('video/'),isPdf=f.mimeType==='application/pdf';if(isImg&&f.url){wrap.innerHTML=`<div style="max-width:260px;border-radius:14px;overflow:hidden;border:1px solid rgba(45,202,140,.15);"><img src="${f.url}" style="width:100%;display:block;cursor:pointer;" onclick="window.open('${f.url}','_blank')" alt="${esc(f.name||'Imagen')}" onerror="this.parentElement.innerHTML='<div style=padding:12px;color:var(--steel)>⚠️ Error al cargar</div>'"/>${f.name?`<div style="padding:6px 10px;font-size:.72rem;color:var(--steel);">${esc(f.name)}</div>`:''}</div>`;}else if(isVid&&f.url){wrap.innerHTML=`<div style="max-width:320px;border-radius:14px;overflow:hidden;border:1px solid rgba(45,202,140,.15);"><iframe src="${f.url}" style="width:100%;height:180px;border:none;" allow="autoplay" allowfullscreen></iframe></div>`;}else if(isPdf&&f.downloadUrl){wrap.innerHTML=`<div style="max-width:275px;border-radius:14px;overflow:hidden;border:1px solid rgba(45,202,140,.11);background:rgba(17,34,25,.78);"><div style="display:flex;align-items:center;gap:12px;padding:12px 14px;"><span style="font-size:26px">📄</span><div><div style="font-size:.80rem;color:var(--white);">${esc(f.name||'Documento.pdf')}</div><div style="font-size:.68rem;color:var(--steel);">PDF</div></div></div><a href="${f.downloadUrl}" target="_blank" style="display:block;padding:9px;text-align:center;font-size:.76rem;color:var(--green);text-decoration:none;border-top:1px solid rgba(45,202,140,.08);">⬇ Descargar</a></div>`;}if(wrap.innerHTML){wrap.appendChild(time);chat.insertBefore(wrap,typing);toBottom();}},300);});}}
   }else{hideTyping();appendMsg('agent',raw||'...');}
   }catch(err){hideTyping();appendMsg('agent',`⚠️ No se pudo conectar con el servidor.\n(${err.message})`);}
 }
