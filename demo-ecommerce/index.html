@@ -209,7 +209,7 @@
 
       <div class="sb-hr"></div>
 
-      <p class="sb-desc">Asistente especializado en ventas en línea. Acompaña al cliente desde que explora tu catálogo hasta que recibe su pedido en casa.</p>
+      <p class="sb-desc">Asistente especializado en ventas en línea. Acompaña al cliente desde que explora tu catálogo hasta que se le realiza el cobro.</p>
 
       <div>
         <div class="sb-section-title">Capacidades</div>
@@ -222,10 +222,10 @@
             </div>
           </div>
           <div class="sb-cap">
-            <div class="sb-cap-emoji">📦</div>
+            <div class="sb-cap-emoji">🔔</div>
             <div>
-              <div class="sb-cap-title">Seguimiento de pedidos</div>
-              <div class="sb-cap-desc">El cliente consulta el estado de su compra en tiempo real sin llamadas ni formularios de soporte.</div>
+              <div class="sb-cap-title">Seguimientos automáticos</div>
+              <div class="sb-cap-desc">Contacta a cada interesado en el momento justo para mantener vivo el interés y cerrar más ventas.</div>
             </div>
           </div>
           <div class="sb-cap">
@@ -236,10 +236,10 @@
             </div>
           </div>
           <div class="sb-cap">
-            <div class="sb-cap-emoji">🔄</div>
+            <div class="sb-cap-emoji">🕐</div>
             <div>
-              <div class="sb-cap-title">Cambios y devoluciones</div>
-              <div class="sb-cap-desc">Inicia y da seguimiento a solicitudes de cambio o reembolso de forma automática y sin fricciones.</div>
+              <div class="sb-cap-title">Disponible 24/7</div>
+              <div class="sb-cap-desc">Atiende consultas en cualquier momento, sin demoras ni días de descanso.</div>
             </div>
           </div>
           <div class="sb-cap">
@@ -317,7 +317,7 @@
           </div>
         </div>
         <div class="sb-hr"></div>
-        <p class="sb-desc">Asistente especializado en ventas en línea. Acompaña al cliente desde que explora tu catálogo hasta que recibe su pedido en casa.</p>
+        <p class="sb-desc">Asistente especializado en ventas en línea. Acompaña al cliente desde que explora tu catálogo hasta que se le realiza el cobro.</p>
         <div>
           <div class="sb-section-title">Capacidades</div>
           <div class="sb-caps">
@@ -329,10 +329,10 @@
               </div>
             </div>
             <div class="sb-cap">
-              <div class="sb-cap-emoji">📦</div>
+              <div class="sb-cap-emoji">🔔</div>
               <div>
-                <div class="sb-cap-title">Seguimiento de pedidos</div>
-                <div class="sb-cap-desc">El cliente consulta el estado de su compra en tiempo real sin llamadas ni formularios de soporte.</div>
+                <div class="sb-cap-title">Seguimientos automáticos</div>
+                <div class="sb-cap-desc">Contacta a cada interesado en el momento justo para mantener vivo el interés y cerrar más ventas.</div>
               </div>
             </div>
             <div class="sb-cap">
@@ -343,10 +343,10 @@
               </div>
             </div>
             <div class="sb-cap">
-              <div class="sb-cap-emoji">🔄</div>
+              <div class="sb-cap-emoji">🕐</div>
               <div>
-                <div class="sb-cap-title">Cambios y devoluciones</div>
-                <div class="sb-cap-desc">Inicia y da seguimiento a solicitudes de cambio o reembolso de forma automática y sin fricciones.</div>
+                <div class="sb-cap-title">Disponible 24/7</div>
+                <div class="sb-cap-desc">Atiende consultas en cualquier momento, sin demoras ni días de descanso.</div>
               </div>
             </div>
             <div class="sb-cap">
@@ -379,7 +379,7 @@
       <div class="welcome">
         <div class="w-icon" aria-hidden="true">🛍️</div>
         <div class="w-title">Asistente de Tienda OCO AI</div>
-        <p class="w-sub">Consulta productos, disponibilidad y precios. Te acompaño desde la búsqueda hasta que llega tu pedido.</p>
+        <p class="w-sub">Consulta productos, disponibilidad y precios. Te acompaño en todo tu proceso de compra.</p>
         <div class="w-hint" aria-hidden="true">
           <span class="w-hint-line"></span>
           <span class="w-hint-text">inicia aquí tu conversación</span>
@@ -387,7 +387,7 @@
         </div>
         <button class="suggest-btn" onclick="injectSuggestion()" type="button">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          ¿Tienen auriculares inalámbricos disponibles?
+          Quiero ver el catalago de Casio
         </button>
       </div>
       <div id="typing" role="status" aria-label="El asistente está escribiendo">
@@ -433,7 +433,7 @@
 const WEBHOOK_URL = "https://wwebhookw.omegaconsultingai.com/webhook/oco_ecommerce";
 function getSession(){const K='ecommerce_sid';let id=localStorage.getItem(K);if(!id){id=crypto.randomUUID();localStorage.setItem(K,id);}return id;}
 let files=[],isRec=false,mr=null,chunks=[],stream=null,actx=null,an=null,raf=null,t0=null,tmr=null;
-function injectSuggestion(){const el=document.getElementById('msgInput');el.value='Hola, ¿tienen auriculares inalámbricos disponibles y cuánto cuesta el envío?';autoResize(el);sendMessage();}
+function injectSuggestion(){const el=document.getElementById('msgInput');el.value='Hola,quiero ver el catalago de Casio';autoResize(el);sendMessage();}
 function fmtTime(d){return d.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});}
 function fmtDur(s){s=Math.floor(s);return`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;}
 function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';}
