@@ -224,7 +224,7 @@
 const WEBHOOK_URL = "https://wwebhookw.omegaconsultingai.com/webhook/oco_carnes";
 function getSession(){const K='carnes_sid';let id=localStorage.getItem(K);if(!id){id=crypto.randomUUID();localStorage.setItem(K,id);}return id;}
 let files=[],isRec=false,mr=null,chunks=[],stream=null,actx=null,an=null,raf=null,t0=null,tmr=null;
-function injectSuggestion(){const el=document.getElementById('msgInput');el.value='Hola,quiero ver el catalago de Casio';autoResize(el);sendMessage();}
+function injectSuggestion(){const el=document.getElementById('msgInput');el.value='Hola, ¿Me puedes mostrar el catálogo de productos disponibles?';autoResize(el);sendMessage();}
 function fmtTime(d){return d.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});}
 function fmtDur(s){s=Math.floor(s);return`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;}
 function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';}
