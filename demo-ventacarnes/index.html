@@ -3,207 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Asesor de Carnes · OCO AI</title>
+
+  <title>Asesor de Carnes con IA · Demo · Oco AI</title>
+  <meta name="description" content="Prueba en vivo un agente de IA para venta de carnes: catálogo de cortes, precios, stock en tiempo real, cotizaciones y pedidos por chat." />
+  <link rel="canonical" href="https://abelzapatav.github.io/oco-ai-demos/demo-ventacarnes/" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#071310" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Oco AI" />
+  <meta property="og:locale" content="es_PE" />
+  <meta property="og:url" content="https://abelzapatav.github.io/oco-ai-demos/demo-ventacarnes/" />
+  <meta property="og:title" content="Asesor de Carnes con IA · Demo · Oco AI" />
+  <meta property="og:description" content="Agente de IA para venta de carnes: catálogo de cortes, precios, stock y pedidos por chat. Pruébalo en vivo." />
+  <meta property="og:image" content="https://abelzapatav.github.io/oco-ai-demos/assets/og-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Asesor de Carnes con IA · Demo · Oco AI" />
+  <meta name="twitter:description" content="Agente de IA para venta de carnes: catálogo de cortes, precios, stock y pedidos por chat. Pruébalo en vivo." />
+  <meta name="twitter:image" content="https://abelzapatav.github.io/oco-ai-demos/assets/og-cover.jpg" />
+
+  <link rel="icon" type="image/png" sizes="any" href="../assets/favicon-512.png" />
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg:#0B1C17;--surface:#112219;--forest:#1A7A52;--green:#2DCA8C;
-      --mint:#5DDBA8;--steel:#7A9E90;--fog:#B8D0C7;--white:#FFFFFF;--off:#EEF4F1;
-      --display:'Space Grotesk',sans-serif;--body:'DM Sans',sans-serif;
-      --ease-out:cubic-bezier(.16,1,.3,1);--r:18px;
-    }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    html{-webkit-font-smoothing:antialiased;}
-    html,body{height:100%;background:var(--bg);color:var(--white);font-family:var(--body);overflow:hidden;}
-    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 75% 55% at 85% 0%,rgba(26,122,82,.24) 0%,transparent 52%),radial-gradient(ellipse 55% 45% at 8% 95%,rgba(45,202,140,.08) 0%,transparent 48%);pointer-events:none;z-index:0;}
-    body::after{content:'';position:fixed;inset:0;background-image:radial-gradient(rgba(45,202,140,.055) 1px,transparent 1px);background-size:36px 36px;-webkit-mask-image:radial-gradient(ellipse 100% 100% at 50% 50%,black 0%,transparent 80%);mask-image:radial-gradient(ellipse 100% 100% at 50% 50%,black 0%,transparent 80%);pointer-events:none;z-index:0;}
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/demo.css" />
 
-    .page-wrap{position:relative;z-index:1;display:flex;gap:20px;align-items:stretch;max-width:1160px;margin:0 auto;height:100vh;padding:0 24px;}
-
-    /* ── sidebar ── */
-    .sidebar{width:264px;flex-shrink:0;display:flex;flex-direction:column;padding:20px 0;animation:fadeDown .5s .1s var(--ease-out) both;}
-    .sb-card{background:rgba(17,34,25,.55);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid rgba(45,202,140,.10);border-radius:20px;padding:22px 18px;display:flex;flex-direction:column;gap:18px;flex:1;overflow-y:auto;scrollbar-width:none;}
-    .sb-card::-webkit-scrollbar{display:none;}
-    .sb-agent{display:flex;align-items:center;gap:12px;}
-    .sb-icon{width:46px;height:46px;font-size:22px;flex-shrink:0;background:rgba(45,202,140,.10);border:1px solid rgba(45,202,140,.18);border-radius:13px;display:flex;align-items:center;justify-content:center;}
-    .sb-name{font-family:var(--display);font-weight:700;font-size:.92rem;color:var(--white);letter-spacing:-.02em;line-height:1.2;}
-    .sb-sector{font-size:.67rem;font-weight:300;color:var(--green);opacity:.8;margin-top:3px;letter-spacing:.04em;}
-    .sb-hr{height:1px;background:linear-gradient(90deg,rgba(45,202,140,.14),transparent);}
-    .sb-desc{font-size:.79rem;line-height:1.68;color:var(--steel);font-weight:300;}
-    .sb-section-title{font-family:var(--display);font-size:.59rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--green);opacity:.7;margin-bottom:10px;}
-    .sb-caps{display:flex;flex-direction:column;gap:7px;}
-    .sb-cap{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:rgba(45,202,140,.05);border:1px solid rgba(45,202,140,.09);border-radius:12px;transition:border-color .2s,background .2s;}
-    .sb-cap:hover{background:rgba(45,202,140,.08);border-color:rgba(45,202,140,.16);}
-    .sb-cap-emoji{font-size:17px;flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:rgba(45,202,140,.08);border:1px solid rgba(45,202,140,.13);border-radius:8px;}
-    .sb-cap-title{font-family:var(--display);font-weight:600;font-size:.75rem;color:var(--white);margin-bottom:2px;letter-spacing:-.01em;}
-    .sb-cap-desc{font-size:.69rem;line-height:1.5;color:var(--steel);font-weight:300;}
-    .sb-tags{display:flex;flex-wrap:wrap;gap:6px;}
-    .sb-tag{font-family:var(--display);font-size:.64rem;font-weight:500;background:rgba(45,202,140,.07);border:1px solid rgba(45,202,140,.15);border-radius:100px;padding:4px 10px;color:var(--mint);}
-    .sb-footer{margin-top:auto;padding-top:14px;border-top:1px solid rgba(45,202,140,.07);display:flex;align-items:center;gap:8px;}
-    .sb-foot-mark{width:24px;height:24px;border-radius:7px;flex-shrink:0;background:linear-gradient(135deg,var(--forest),var(--green));display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:11px;color:var(--white);overflow:hidden;}
-    .sb-foot-text{font-size:.65rem;color:var(--steel);font-weight:300;line-height:1.3;}
-    .sb-foot-text strong{color:var(--fog);font-weight:500;}
-
-    /* ── chat column ── */
-    .app{flex:1;min-width:0;display:flex;flex-direction:column;height:100vh;}
-    header{display:flex;align-items:center;gap:12px;padding:18px 0 14px;border-bottom:1px solid rgba(45,202,140,.07);flex-shrink:0;animation:fadeDown .45s var(--ease-out) both;}
-    .btn-back{width:36px;height:36px;border-radius:10px;flex-shrink:0;background:rgba(17,34,25,.75);border:1px solid rgba(45,202,140,.12);display:flex;align-items:center;justify-content:center;color:var(--steel);text-decoration:none;transition:border-color .2s,color .2s,background .2s;outline:none;}
-    .btn-back:hover{border-color:rgba(45,202,140,.30);color:var(--green);background:rgba(45,202,140,.07);}
-    .btn-back:focus-visible{outline:2px solid var(--green);outline-offset:2px;}
-    .logo-link{display:flex;align-items:center;gap:8px;text-decoration:none;}
-    .logo-mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--forest),var(--green));display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:14px;color:var(--white);flex-shrink:0;overflow:hidden;}
-    .logo-name{font-family:var(--display);font-weight:700;font-size:.9rem;color:var(--white);letter-spacing:-.01em;}
-    .hd-sep{flex:1;}
-    .hd-info{text-align:right;}
-    .hd-title{font-family:var(--display);font-weight:600;font-size:.86rem;color:var(--white);letter-spacing:-.01em;}
-    .hd-sub{font-size:.68rem;font-weight:300;color:var(--steel);margin-top:1px;}
-    .live-dot{display:inline-block;width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 6px var(--green);margin-right:5px;animation:livePulse 2.2s ease-in-out infinite;}
-    @keyframes livePulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.65);}}
-
-    .chat{flex:1;overflow-y:auto;padding:20px 0 10px;display:flex;flex-direction:column;gap:4px;scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:rgba(45,202,140,.14) transparent;}
-    .chat::-webkit-scrollbar{width:4px;}
-    .chat::-webkit-scrollbar-thumb{background:rgba(45,202,140,.14);border-radius:4px;}
-    .welcome{display:flex;flex-direction:column;align-items:center;text-align:center;padding:28px 24px 24px;background:rgba(17,34,25,.55);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid rgba(45,202,140,.10);border-radius:20px;margin-bottom:18px;animation:fadeUp .55s var(--ease-out) both;}
-    .w-icon{width:54px;height:54px;font-size:26px;background:rgba(45,202,140,.10);border:1px solid rgba(45,202,140,.18);border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
-    .w-title{font-family:var(--display);font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px;letter-spacing:-.02em;}
-    .w-sub{font-size:.81rem;line-height:1.65;color:var(--steel);font-weight:300;max-width:340px;}
-    .w-hint{display:flex;align-items:center;gap:10px;margin:18px 0 10px;width:100%;}
-    .w-hint-line{flex:1;height:1px;background:rgba(45,202,140,.13);}
-    .w-hint-text{font-size:.63rem;color:var(--steel);font-weight:400;letter-spacing:.07em;white-space:nowrap;opacity:.85;}
-    .suggest-btn{margin-top:0;width:100%;display:flex;align-items:center;justify-content:center;gap:9px;background:rgba(45,202,140,.10);border:1px solid rgba(45,202,140,.30);border-radius:14px;padding:13px 20px;font-family:var(--display);font-size:.82rem;font-weight:600;color:var(--white);cursor:pointer;transition:background .2s,border-color .2s,transform .2s var(--ease-out),box-shadow .2s;outline:none;animation:suggestPulse 3s 2s ease-in-out infinite;}
-    @keyframes suggestPulse{0%,100%{box-shadow:0 0 0 0 rgba(45,202,140,0);border-color:rgba(45,202,140,.30);}50%{box-shadow:0 0 0 5px rgba(45,202,140,.09);border-color:rgba(45,202,140,.55);}}
-    .suggest-btn:hover,.suggest-btn:focus-visible{background:rgba(45,202,140,.18);border-color:rgba(45,202,140,.52);transform:translateY(-2px);box-shadow:0 6px 20px rgba(45,202,140,.18);animation:none;}
-    .suggest-btn:focus-visible{outline:2px solid var(--green);outline-offset:2px;}
-
-    .msg{display:flex;flex-direction:column;max-width:78%;animation:msgSlide .28s var(--ease-out) both;}
-    @keyframes msgSlide{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-    .msg.user{align-self:flex-end;align-items:flex-end;}
-    .msg.agent{align-self:flex-start;align-items:flex-start;}
-    .bubble{padding:11px 15px;border-radius:var(--r);font-size:.875rem;line-height:1.65;font-weight:400;white-space:pre-wrap;word-break:break-word;}
-    .msg.user .bubble{background:rgba(45,202,140,.13);border:1px solid rgba(45,202,140,.22);border-bottom-right-radius:5px;color:var(--off);}
-    .msg.agent .bubble{background:rgba(17,34,25,.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(45,202,140,.08);border-bottom-left-radius:5px;color:var(--white);position:relative;padding-left:18px;}
-    .msg.agent .bubble::before{content:'';position:absolute;left:0;top:18%;bottom:18%;width:2px;border-radius:2px;background:linear-gradient(to bottom,transparent,var(--green),transparent);}
-    .bubble-file{display:flex;align-items:center;gap:12px;background:rgba(17,34,25,.78);border:1px solid rgba(45,202,140,.11);border-radius:14px;padding:12px 16px;}
-    .file-icon{font-size:22px;flex-shrink:0;}
-    .file-name{font-size:.81rem;font-weight:500;color:var(--white);}
-    .file-size{font-size:.68rem;color:var(--steel);margin-top:2px;}
-    .bubble-audio{display:flex;align-items:center;gap:10px;background:rgba(17,34,25,.78);border:1px solid rgba(45,202,140,.11);border-radius:50px;padding:10px 15px;min-width:200px;}
-    .audio-play-btn{width:32px;height:32px;border-radius:50%;background:var(--green);border:none;color:var(--bg);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .15s,box-shadow .15s;outline:none;}
-    .audio-play-btn:hover,.audio-play-btn:focus-visible{transform:scale(1.08);box-shadow:0 0 14px rgba(45,202,140,.42);}
-    .audio-play-btn:focus-visible{outline:2px solid var(--green);outline-offset:2px;}
-    .audio-waveform{display:flex;align-items:center;gap:2px;flex:1;height:24px;}
-    .waveform-bar{width:2px;border-radius:2px;background:var(--green);opacity:.5;min-height:3px;}
-    .audio-dur{font-size:.70rem;color:var(--steel);flex-shrink:0;}
-    .msg-time{font-size:.62rem;color:rgba(122,158,144,.45);margin-top:4px;padding:0 3px;}
-
-    #typing{display:none;align-self:flex-start;background:rgba(17,34,25,.78);backdrop-filter:blur(12px);border:1px solid rgba(45,202,140,.08);border-radius:var(--r);border-bottom-left-radius:5px;padding:12px 16px;animation:msgSlide .28s var(--ease-out) both;}
-    #typing.on{display:flex;align-items:center;gap:5px;}
-    .td{width:6px;height:6px;border-radius:50%;background:var(--green);opacity:.4;animation:tdBounce 1.2s infinite ease-in-out;}
-    .td:nth-child(2){animation-delay:.2s;}
-    .td:nth-child(3){animation-delay:.4s;}
-    @keyframes tdBounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
-
-    .input-area{flex-shrink:0;padding:10px 0 20px;border-top:1px solid rgba(45,202,140,.06);}
-    #preview-strip{display:none;flex-wrap:wrap;gap:7px;padding:8px 0;margin-bottom:7px;}
-    #preview-strip.on{display:flex;}
-    .f-chip{display:flex;align-items:center;gap:5px;background:rgba(45,202,140,.08);border:1px solid rgba(45,202,140,.18);border-radius:100px;padding:4px 10px 4px 8px;font-size:.70rem;color:var(--mint);max-width:190px;}
-    .f-chip span:nth-child(2){overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-    .f-rm{cursor:pointer;color:var(--steel);margin-left:2px;flex-shrink:0;transition:color .15s;}
-    .f-rm:hover{color:#ff6b6b;}
-    #rec-row{display:none;align-items:center;gap:12px;background:rgba(17,34,25,.78);backdrop-filter:blur(16px);border:1px solid rgba(45,202,140,.20);border-radius:16px;padding:10px 14px;}
-    #rec-row.on{display:flex;}
-    .rec-led{width:8px;height:8px;border-radius:50%;background:#ff5c5c;flex-shrink:0;animation:blink 1s infinite;}
-    @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-    #rec-timer{font-family:var(--display);font-size:.80rem;font-weight:600;color:var(--white);min-width:34px;}
-    #viz{display:flex;align-items:center;gap:2px;flex:1;height:26px;overflow:hidden;}
-    .vb{width:3px;border-radius:2px;background:var(--green);min-height:3px;transition:height .08s;}
-    .btn-rec-cancel,.btn-rec-send{border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;outline:none;}
-    .btn-rec-cancel{background:none;color:var(--steel);padding:4px;border-radius:6px;transition:color .15s;}
-    .btn-rec-cancel:hover{color:#ff6b6b;}
-    .btn-rec-cancel:focus-visible{outline:2px solid var(--green);outline-offset:2px;}
-    .btn-rec-send{width:34px;height:34px;border-radius:10px;background:var(--green);color:var(--bg);flex-shrink:0;transition:background .2s,transform .15s;}
-    .btn-rec-send:hover{background:var(--mint);transform:scale(1.05);}
-    .btn-rec-send:focus-visible{outline:2px solid var(--white);outline-offset:2px;}
-    #input-row{display:flex;align-items:flex-end;gap:10px;}
-    .input-glass{flex:1;display:flex;align-items:flex-end;gap:8px;background:rgba(17,34,25,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(45,202,140,.14);border-radius:18px;padding:10px 12px;transition:border-color .22s,box-shadow .22s;}
-    .input-glass:focus-within{border-color:rgba(45,202,140,.36);box-shadow:0 0 0 3px rgba(45,202,140,.07);}
-    .icon-btn{width:30px;height:30px;flex-shrink:0;border-radius:8px;background:none;border:none;cursor:pointer;color:var(--steel);display:flex;align-items:center;justify-content:center;transition:color .18s,background .18s;outline:none;}
-    .icon-btn:hover{color:var(--green);background:rgba(45,202,140,.08);}
-    .icon-btn:focus-visible{outline:2px solid var(--green);outline-offset:1px;}
-    #msgInput{flex:1;background:none;border:none;outline:none;color:var(--white);font-family:var(--body);font-size:.90rem;font-weight:300;line-height:1.5;resize:none;min-height:24px;max-height:100px;}
-    #msgInput::placeholder{color:rgba(122,158,144,.48);}
-    .btn-send{width:44px;height:44px;flex-shrink:0;border-radius:14px;background:var(--green);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--bg);box-shadow:0 4px 18px rgba(45,202,140,.28);transition:background .2s,transform .18s var(--ease-out),box-shadow .2s;outline:none;}
-    .btn-send:hover{background:var(--mint);transform:translateY(-1px);box-shadow:0 6px 22px rgba(45,202,140,.38);}
-    .btn-send:active{transform:scale(.96);}
-    .btn-send:focus-visible{outline:2px solid var(--white);outline-offset:2px;}
-    input[type=file]{display:none;}
-
-    @keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
-    @keyframes fadeUp  {from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none}}
-    /* ── MOBILE: barra de agente + tarjeta info (ocultos en desktop) ── */
-    .mob-bar{display:none;align-items:center;gap:10px;padding:8px 0 10px;border-bottom:1px solid rgba(45,202,140,.06);flex-shrink:0;}
-    .mob-icon{font-size:15px;width:28px;height:28px;background:rgba(45,202,140,.08);border:1px solid rgba(45,202,140,.13);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-    .mob-name{font-family:var(--display);font-weight:600;font-size:.76rem;color:var(--white);letter-spacing:-.01em;}
-    .mob-sub{font-size:.61rem;color:var(--steel);margin-top:1px;}
-    .mob-info{display:none;flex-direction:column;gap:14px;background:rgba(17,34,25,.55);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid rgba(45,202,140,.10);border-radius:20px;padding:18px 16px;flex-shrink:0;}
-
-    /* ── REDUCED MOTION ── */
-    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.1ms!important;}}
-
-    /* ── CTA scroll-to-chat (solo móvil) ── */
-    .mob-scroll-cta{display:none;}
-
-    /* ── MÓVIL: dos secciones — info primero, chat al hacer scroll ── */
-    @media(max-width:768px){
-      html,body{height:auto!important;overflow-y:auto!important;overflow-x:hidden!important;}
-      .page-wrap{flex-direction:column;height:auto;padding:0 16px;gap:0;}
-      .sidebar{display:flex!important;width:100%;min-height:100dvh;padding:20px 0 24px;flex-shrink:0;}
-      .sb-card{overflow:visible;max-height:none;}
-      .mob-scroll-cta{
-        display:flex;align-items:center;justify-content:center;gap:8px;
-        padding:13px 24px;margin-top:4px;
-        background:var(--green);border-radius:14px;
-        font-family:var(--display);font-weight:600;font-size:.88rem;color:var(--bg);
-        text-decoration:none;
-        transition:background .2s,transform .18s var(--ease-out);
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "Asesor de Carnes con IA — Oco AI",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "description": "Agente de IA para venta de carnes: catálogo de cortes, precios, stock y pedidos por chat. Pruébalo en vivo.",
+        "url": "https://abelzapatav.github.io/oco-ai-demos/demo-ventacarnes/",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "provider": { "@type": "Organization", "name": "Oco AI", "url": "https://omegaconsultingai.com/" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Demos de agentes", "item": "https://abelzapatav.github.io/oco-ai-demos/" },
+          { "@type": "ListItem", "position": 2, "name": "Asesor de Carnes" }
+        ]
       }
-      .mob-scroll-cta:hover,.mob-scroll-cta:active{background:var(--mint);transform:translateY(-1px);}
-      .app{height:100dvh;flex-shrink:0;overflow:hidden;}
-      .mob-bar{display:none!important;}
-      .mob-info{display:none!important;}
-      header{padding:12px 0 10px;}
-      .logo-name{display:none;}
-      .hd-title{font-size:.80rem;}
-      .hd-sub{font-size:.60rem;}
-      .input-area{padding:8px 0;padding-bottom:max(16px,env(safe-area-inset-bottom));}
-      .icon-btn{width:36px;height:36px;}
-      .btn-send{width:40px;height:40px;border-radius:12px;}
-      #msgInput{font-size:1rem;}
-      .msg{max-width:90%;}
-      .bubble{font-size:.84rem;padding:10px 13px;}
-      .chat{padding:14px 0 8px;}
-    }
-
-    @media(max-width:480px){
-      .page-wrap{padding:0 12px;}
-      .welcome{padding:16px 14px 14px;}
-      .w-icon{width:46px;height:46px;font-size:22px;}
-      .suggest-btn{font-size:.70rem;padding:7px 14px;}
-    }
-  </style>
+    ]
+  }
+  </script>
 </head>
 <body>
 
 <div class="page-wrap">
 
   <!-- ── SIDEBAR ── -->
-  <aside class="sidebar" aria-label="Información del asesor">
+  <aside class="sidebar" aria-label="Información del asistente">
     <div class="sb-card">
 
       <div class="sb-agent">
-        <div class="sb-icon" aria-hidden="true">🥩</div>
+        <div class="sb-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7a3 3 0 0 0 6 0V2"/><path d="M6 2v20"/><path d="M18 2a3 3 0 0 0-3 3v6a3 3 0 0 0 3 3z"/><path d="M18 13v9"/></svg></div>
         <div>
           <div class="sb-name">Asesor de Carnes</div>
           <div class="sb-sector">Venta de Carnes</div>
@@ -218,42 +78,42 @@
         <div class="sb-section-title">Capacidades</div>
         <div class="sb-caps">
           <div class="sb-cap">
-            <div class="sb-cap-emoji">🕐</div>
+            <div class="sb-cap-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
             <div>
               <div class="sb-cap-title">Disponible 24/7</div>
               <div class="sb-cap-desc">Atiende consultas en cualquier momento, sin demoras ni días de descanso.</div>
             </div>
           </div>
           <div class="sb-cap">
-            <div class="sb-cap-emoji">📦</div>
+            <div class="sb-cap-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v8a2 2 0 0 1-1 1.7l-7 4a2 2 0 0 1-2 0l-7-4A2 2 0 0 1 3 16V8a2 2 0 0 1 1-1.7l7-4a2 2 0 0 1 2 0l7 4A2 2 0 0 1 21 8z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></div>
             <div>
               <div class="sb-cap-title">Catálogo de productos</div>
               <div class="sb-cap-desc">Presenta cada corte con descripción, precio y uso ideal, para que el cliente elija con confianza.</div>
             </div>
           </div>
           <div class="sb-cap">
-            <div class="sb-cap-emoji">❓</div>
+            <div class="sb-cap-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></div>
             <div>
               <div class="sb-cap-title">Preguntas frecuentes</div>
               <div class="sb-cap-desc">Responde dudas sobre cortes, procedencia, tiempo de entrega y condiciones de compra al instante.</div>
             </div>
           </div>
           <div class="sb-cap">
-            <div class="sb-cap-emoji">📊</div>
+            <div class="sb-cap-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg></div>
             <div>
               <div class="sb-cap-title">Stock en tiempo real</div>
               <div class="sb-cap-desc">Informa disponibilidad actualizada para que el cliente sepa qué hay sin necesidad de llamar.</div>
             </div>
           </div>
           <div class="sb-cap">
-            <div class="sb-cap-emoji">🧾</div>
+            <div class="sb-cap-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1z"/><path d="M8 7h8M8 11h8M8 15h5"/></svg></div>
             <div>
               <div class="sb-cap-title">Cotizaciones automáticas</div>
               <div class="sb-cap-desc">Genera presupuestos detallados por cantidad y tipo de corte, listos para aprobar o ajustar.</div>
             </div>
           </div>
           <div class="sb-cap">
-            <div class="sb-cap-emoji">👤</div>
+            <div class="sb-cap-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><path d="M21 16a2 2 0 0 1-2 2h-1v-5h1a2 2 0 0 1 2 2z"/><path d="M3 16a2 2 0 0 0 2 2h1v-5H5a2 2 0 0 0-2 2z"/></svg></div>
             <div>
               <div class="sb-cap-title">Transferencia a un asesor</div>
               <div class="sb-cap-desc">Cuando el cliente lo necesita, conecta con un asesor humano sin perder el hilo de la conversación.</div>
@@ -269,18 +129,23 @@
           <span class="sb-tag">Mayoristas</span>
           <span class="sb-tag">Carnicerías</span>
           <span class="sb-tag">Hogares</span>
+          <span class="sb-tag">Eventos</span>
         </div>
       </div>
 
       <div class="sb-footer">
-        <div class="sb-foot-mark" aria-hidden="true"><img src="https://raw.githubusercontent.com/abelzapatav/Media-/main/LOGO-OCO-AI-redes.jpg" alt="OCO AI" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+        <div class="sb-foot-mark" aria-hidden="true"><img src="../assets/logo/monogram-white.png" alt="Oco AI"></div>
         <div class="sb-foot-text">
-          <strong>OCO AI</strong> · Demo 2026<br>
+          <strong>Oco AI</strong> · Demo 2026<br>
           Agente con IA en tiempo real
         </div>
       </div>
 
     </div>
+    <a href="#chat-section" class="mob-scroll-cta">
+      Abrir el chat
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12l7 7 7-7"/></svg>
+    </a>
   </aside>
 
   <!-- ── CHAT ── -->
@@ -290,9 +155,8 @@
       <a href="../" class="btn-back" aria-label="Volver a demos">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
       </a>
-      <a href="../" class="logo-link" aria-label="OCO AI inicio">
-        <div class="logo-mark" aria-hidden="true"><img src="https://raw.githubusercontent.com/abelzapatav/Media-/main/LOGO-OCO-AI-redes.jpg" alt="OCO AI" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-        <span class="logo-name">OCO AI</span>
+      <a href="../" class="logo-link" aria-label="Oco AI inicio">
+        <img class="brand-logo" src="../assets/logo/wordmark-white.png" alt="Oco AI">
       </a>
       <div class="hd-sep"></div>
       <div class="hd-info">
@@ -301,89 +165,11 @@
       </div>
     </header>
 
-    <!-- barra agente (solo visible en móvil) -->
-    <div class="mob-bar" aria-label="Información del agente">
-      <div class="mob-icon" aria-hidden="true">🥩</div>
-      <div>
-        <div class="mob-name">Asesor de Carnes</div>
-        <div class="mob-sub">Carnicería Premium · OCO AI</div>
-      </div>
-    </div>
-
-    <div class="chat" id="chat" role="log" aria-live="polite" aria-label="Conversación con el asesor de carnes">
-
-      <!-- tarjeta de info completa: solo visible en móvil -->
-      <div class="mob-info" aria-label="Información del asesor">
-        <div class="sb-agent">
-          <div class="sb-icon" aria-hidden="true">🥩</div>
-          <div>
-            <div class="sb-name">Asesor de Carnes</div>
-            <div class="sb-sector">Venta de Carnes</div>
-          </div>
-        </div>
-        <div class="sb-hr"></div>
-        <p class="sb-desc">Experto en cortes, precios y pedidos. Perfecto para clientes al menudeo y mayoreo que buscan la mejor calidad.</p>
-        <div>
-          <div class="sb-section-title">Capacidades</div>
-          <div class="sb-caps">
-            <div class="sb-cap">
-              <div class="sb-cap-emoji">🕐</div>
-              <div>
-                <div class="sb-cap-title">Disponible 24/7</div>
-                <div class="sb-cap-desc">Atiende consultas en cualquier momento, sin demoras ni días de descanso.</div>
-              </div>
-            </div>
-            <div class="sb-cap">
-              <div class="sb-cap-emoji">📦</div>
-              <div>
-                <div class="sb-cap-title">Catálogo de productos</div>
-                <div class="sb-cap-desc">Presenta cada corte con descripción, precio y uso ideal, para que el cliente elija con confianza.</div>
-              </div>
-            </div>
-            <div class="sb-cap">
-              <div class="sb-cap-emoji">❓</div>
-              <div>
-                <div class="sb-cap-title">Preguntas frecuentes</div>
-                <div class="sb-cap-desc">Responde dudas sobre cortes, procedencia, tiempo de entrega y condiciones de compra al instante.</div>
-              </div>
-            </div>
-            <div class="sb-cap">
-              <div class="sb-cap-emoji">📊</div>
-              <div>
-                <div class="sb-cap-title">Stock en tiempo real</div>
-                <div class="sb-cap-desc">Informa disponibilidad actualizada para que el cliente sepa qué hay sin necesidad de llamar.</div>
-              </div>
-            </div>
-            <div class="sb-cap">
-              <div class="sb-cap-emoji">🧾</div>
-              <div>
-                <div class="sb-cap-title">Cotizaciones automáticas</div>
-                <div class="sb-cap-desc">Genera presupuestos detallados por cantidad y tipo de corte, listos para aprobar o ajustar.</div>
-              </div>
-            </div>
-            <div class="sb-cap">
-              <div class="sb-cap-emoji">👤</div>
-              <div>
-                <div class="sb-cap-title">Transferencia a un asesor</div>
-                <div class="sb-cap-desc">Cuando el cliente lo necesita, conecta con un asesor humano sin perder el hilo de la conversación.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div class="sb-section-title">Ideal para</div>
-          <div class="sb-tags">
-            <span class="sb-tag">Restaurantes</span>
-            <span class="sb-tag">Mayoristas</span>
-            <span class="sb-tag">Hogares</span>
-            <span class="sb-tag">Eventos</span>
-          </div>
-        </div>
-      </div>
+    <div class="chat" id="chat" role="log" aria-live="polite" aria-label="Conversación con Asesor de Carnes">
 
       <div class="welcome">
-        <div class="w-icon" aria-hidden="true">🥩</div>
-        <div class="w-title">Asesor de Carnes OCO AI</div>
+        <div class="w-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7a3 3 0 0 0 6 0V2"/><path d="M6 2v20"/><path d="M18 2a3 3 0 0 0-3 3v6a3 3 0 0 0 3 3z"/><path d="M18 13v9"/></svg></div>
+        <div class="w-title">Asesor de Carnes · Oco AI</div>
         <p class="w-sub">Consulta cortes, precios, disponibilidad y pedidos al mayoreo. Te ayudo a encontrar el corte perfecto para cada ocasión.</p>
         <div class="w-hint" aria-hidden="true">
           <span class="w-hint-line"></span>
@@ -391,11 +177,11 @@
           <span class="w-hint-line"></span>
         </div>
         <button class="suggest-btn" onclick="injectSuggestion()" type="button">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           ¿Me puedes mostrar el catálogo de productos disponibles?
         </button>
       </div>
-      <div id="typing" role="status" aria-label="El asesor está escribiendo">
+      <div id="typing" role="status" aria-label="El asistente está escribiendo">
         <div class="td"></div><div class="td"></div><div class="td"></div>
       </div>
     </div>
@@ -438,7 +224,7 @@
 const WEBHOOK_URL = "https://wwebhookw.omegaconsultingai.com/webhook/oco_carnes";
 function getSession(){const K='carnes_sid';let id=localStorage.getItem(K);if(!id){id=crypto.randomUUID();localStorage.setItem(K,id);}return id;}
 let files=[],isRec=false,mr=null,chunks=[],stream=null,actx=null,an=null,raf=null,t0=null,tmr=null;
-function injectSuggestion(){const el=document.getElementById('msgInput');el.value='Hola, ¿Me puedes mostrar el catálogo de productos disponibles?';autoResize(el);sendMessage();}
+function injectSuggestion(){const el=document.getElementById('msgInput');el.value='Hola,quiero ver el catalago de Casio';autoResize(el);sendMessage();}
 function fmtTime(d){return d.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});}
 function fmtDur(s){s=Math.floor(s);return`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;}
 function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';}

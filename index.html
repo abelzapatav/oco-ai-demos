@@ -3,385 +3,214 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OCO AI · Demos de Agentes</title>
+
+  <title>Demos de agentes de IA por industria · Oco AI</title>
+  <meta name="description" content="Prueba en vivo los agentes de IA de Oco AI por rubro: e-commerce, inmobiliaria, venta de carnes y belleza. Conectados a inteligencia artificial en tiempo real." />
+  <link rel="canonical" href="https://abelzapatav.github.io/oco-ai-demos/" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#071310" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Oco AI" />
+  <meta property="og:locale" content="es_PE" />
+  <meta property="og:url" content="https://abelzapatav.github.io/oco-ai-demos/" />
+  <meta property="og:title" content="Demos de agentes de IA por industria · Oco AI" />
+  <meta property="og:description" content="Prueba en vivo agentes de IA por rubro, conectados a inteligencia artificial en tiempo real." />
+  <meta property="og:image" content="https://abelzapatav.github.io/oco-ai-demos/assets/og-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Demos de agentes de IA por industria · Oco AI" />
+  <meta name="twitter:description" content="Prueba en vivo agentes de IA por rubro, conectados a IA en tiempo real." />
+  <meta name="twitter:image" content="https://abelzapatav.github.io/oco-ai-demos/assets/og-cover.jpg" />
+
+  <link rel="icon" type="image/png" sizes="any" href="assets/favicon-512.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": "https://abelzapatav.github.io/oco-ai-demos/#page",
+        "name": "Demos de agentes de IA por industria — Oco AI",
+        "description": "Colección de demos en vivo de agentes de IA de Oco AI por rubro.",
+        "url": "https://abelzapatav.github.io/oco-ai-demos/",
+        "isPartOf": { "@type": "WebSite", "name": "Oco AI", "url": "https://omegaconsultingai.com/" }
+      },
+      {
+        "@type": "ItemList",
+        "name": "Agentes de IA por industria",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Agente Inmobiliario", "url": "https://abelzapatav.github.io/oco-ai-demos/demo-inmobiliaria/" },
+          { "@type": "ListItem", "position": 2, "name": "Asesor de Carnes", "url": "https://abelzapatav.github.io/oco-ai-demos/demo-ventacarnes/" },
+          { "@type": "ListItem", "position": 3, "name": "Asistente de Belleza", "url": "https://abelzapatav.github.io/oco-ai-demos/demo-salon.spa/" },
+          { "@type": "ListItem", "position": 4, "name": "Asistente de Tienda", "url": "https://abelzapatav.github.io/oco-ai-demos/demo-ecommerce/" }
+        ]
+      }
+    ]
+  }
+  </script>
+
   <style>
-    /* ── TOKENS ── */
     :root {
-      --bg:      #0B1C17;
-      --surface: #112219;
-      --forest:  #1A7A52;
-      --green:   #2DCA8C;
-      --mint:    #5DDBA8;
-      --steel:   #7A9E90;
-      --fog:     #B8D0C7;
-      --white:   #FFFFFF;
-      --off:     #EEF4F1;
-      --display: 'Space Grotesk', sans-serif;
-      --body:    'DM Sans', sans-serif;
-      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --bg:#071310; --bg-2:#0B1C17;
+      --panel:rgba(17,38,31,.55);
+      --line:rgba(45,202,140,.14); --line-hi:rgba(45,202,140,.42);
+      --accent:#2DCA8C; --accent-2:#7FE7BE; --green:#2DCA8C; --mint:#7FE7BE;
+      --forest:#1A7A52;
+      --text:#EAF6F0; --white:#EAF6F0; --steel:#9DB8AC; --fog:#C4DBD0;
+      --display:'Sora',sans-serif; --body:'DM Sans',sans-serif;
+      --ease-out:cubic-bezier(.16,1,.3,1);
     }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+    body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--body);overflow-x:hidden;}
+    img{display:block;max-width:100%;}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px;}
 
-    /* ── RESET ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { -webkit-font-smoothing: antialiased; }
-    body {
-      min-height: 100vh;
-      background: var(--bg);
-      color: var(--white);
-      font-family: var(--body);
-      overflow-x: hidden;
-    }
-
-    /* ── FONDO CAPA 1: radial glow ── */
-    .bg-glow {
-      position: fixed; inset: 0;
+    /* fondo aurora */
+    .bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;
       background:
-        radial-gradient(ellipse 90% 70% at 80% 4%,  rgba(26,122,82,0.32) 0%, transparent 52%),
-        radial-gradient(ellipse 60% 50% at 12% 90%, rgba(45,202,140,0.09) 0%, transparent 48%);
-      pointer-events: none; z-index: 0;
-    }
+        radial-gradient(ellipse 90% 70% at 82% 2%, rgba(45,202,140,.20) 0%, transparent 54%),
+        radial-gradient(ellipse 60% 50% at 10% 96%, rgba(28,120,88,.14) 0%, transparent 50%);}
+    .bg-grid{position:fixed;inset:0;pointer-events:none;z-index:0;
+      background-image:
+        linear-gradient(rgba(45,202,140,.05) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(45,202,140,.05) 1px,transparent 1px);
+      background-size:44px 44px;
+      -webkit-mask-image:radial-gradient(ellipse 100% 100% at 50% 46%,black 0%,transparent 78%);
+      mask-image:radial-gradient(ellipse 100% 100% at 50% 46%,black 0%,transparent 78%);}
 
-    /* ── FONDO CAPA 2: dot grid ── */
-    .bg-grid {
-      position: fixed; inset: 0;
-      background-image: radial-gradient(rgba(45,202,140,0.07) 1px, transparent 1px);
-      background-size: 36px 36px;
-      -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 0%, transparent 78%);
-      mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 0%, transparent 78%);
-      pointer-events: none; z-index: 0;
-    }
+    /* anillos signature */
+    .rings-wrap{position:fixed;right:-9%;top:50%;transform:translateY(-52%);width:min(680px,54vw);aspect-ratio:1;pointer-events:none;z-index:0;}
+    .rings-wrap svg{width:100%;height:100%;}
+    .r-outer{animation:rSpin 100s linear infinite;transform-origin:300px 300px;}
+    .r-mid{animation:rSpin 65s linear infinite reverse;transform-origin:300px 300px;}
+    .r-inner{animation:rPulse 4s ease-in-out infinite;transform-origin:300px 300px;}
+    .c-dot{animation:cPulse 3s ease-in-out infinite;}
+    @keyframes rSpin{to{transform:rotate(360deg);}}
+    @keyframes rPulse{0%,100%{opacity:1}50%{opacity:.5}}
+    @keyframes cPulse{0%,100%{r:5;opacity:.65}50%{r:7.5;opacity:1}}
 
-    /* ── ANILLOS (brand signature) ── */
-    .rings-wrap {
-      position: fixed;
-      right: -9%;
-      top: 50%;
-      transform: translateY(-52%);
-      width: min(680px, 54vw);
-      aspect-ratio: 1;
-      pointer-events: none; z-index: 0;
-    }
-    .rings-wrap svg { width: 100%; height: 100%; }
-    .r-outer { animation: rSpin 100s linear infinite; transform-origin: 300px 300px; }
-    .r-mid   { animation: rSpin  65s linear infinite reverse; transform-origin: 300px 300px; }
-    .r-inner { animation: rPulse  4s ease-in-out infinite; transform-origin: 300px 300px; }
-    .c-dot   { animation: cPulse  3s ease-in-out infinite; }
-    @keyframes rSpin  { to { transform: rotate(360deg); } }
-    @keyframes rPulse { 0%,100%{opacity:1}50%{opacity:.5} }
-    @keyframes cPulse { 0%,100%{r:5;opacity:.65}50%{r:7.5;opacity:1} }
+    .ptcl-wrap{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+    .ptcl{position:absolute;border-radius:50%;background:var(--accent);opacity:0;animation:ptclRise var(--d) var(--dl) ease-in-out infinite;}
+    @keyframes ptclRise{0%{opacity:0;transform:translateY(0) scale(1);}18%{opacity:.55;}82%{opacity:.18;}100%{opacity:0;transform:translateY(-110px) scale(.4);}}
 
-    /* ── PARTÍCULAS ── */
-    .ptcl-wrap { position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden; }
-    .ptcl {
-      position:absolute; border-radius:50%;
-      background:var(--green); opacity:0;
-      animation: ptclRise var(--d) var(--dl) ease-in-out infinite;
-    }
-    @keyframes ptclRise {
-      0%   { opacity:0; transform:translateY(0) scale(1); }
-      18%  { opacity:.55; }
-      82%  { opacity:.18; }
-      100% { opacity:0; transform:translateY(-110px) scale(.4); }
-    }
+    .page{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;max-width:1120px;margin:0 auto;padding:0 28px 72px;}
 
-    /* ── LAYOUT ── */
-    .page {
-      position: relative; z-index: 1;
-      min-height: 100vh;
-      display: flex; flex-direction: column;
-      max-width: 1080px; margin: 0 auto;
-      padding: 0 28px 72px;
-    }
+    /* nav */
+    nav{display:flex;align-items:center;justify-content:space-between;padding:26px 0;animation:fadeDown .55s var(--ease-out) both;}
+    .logo-link{display:flex;align-items:center;text-decoration:none;}
+    .brand-logo{height:30px;width:auto;}
+    .nav-tag{font-family:var(--display);font-size:.68rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-2);border:1px solid var(--line-hi);border-radius:100px;padding:7px 16px;}
 
-    /* ── NAV ── */
-    nav {
-      display:flex; align-items:center; justify-content:space-between;
-      padding: 28px 0;
-      animation: fadeDown .55s var(--ease-out) both;
-    }
-    .logo-link { display:flex;align-items:center;gap:10px;text-decoration:none; }
-    .logo-mark {
-      width:38px;height:38px;
-      background: linear-gradient(135deg, var(--forest) 0%, var(--green) 100%);
-      border-radius:11px;
-      display:flex;align-items:center;justify-content:center;
-      font-family:var(--display);font-weight:700;font-size:19px;color:var(--white);
-      flex-shrink:0;
-      box-shadow:0 4px 18px rgba(45,202,140,.22);
-      overflow:hidden;
-    }
-    .logo-name { font-family:var(--display);font-weight:700;font-size:1.1rem;color:var(--white);letter-spacing:-.02em; }
-    .nav-tag {
-      font-family:var(--display);font-size:.64rem;font-weight:500;
-      letter-spacing:.15em;text-transform:uppercase;color:var(--steel);
-      border:1px solid rgba(122,158,144,.22);border-radius:100px;padding:5px 14px;
-    }
+    /* hero */
+    .hero{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;padding:64px 0 52px;}
+    .badge{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line-hi);background:rgba(45,202,140,.06);border-radius:100px;padding:7px 18px 7px 12px;font-family:var(--display);font-size:.72rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-2);margin-bottom:34px;animation:fadeDown .65s .1s var(--ease-out) both;}
+    .badge-dot{width:7px;height:7px;background:var(--accent);border-radius:50%;box-shadow:0 0 8px var(--accent);flex-shrink:0;animation:dotPulse 2.2s ease-in-out infinite;}
+    @keyframes dotPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(.6);opacity:.4;}}
 
-    /* ── HERO ── */
-    .hero {
-      flex:1;display:flex;flex-direction:column;align-items:center;
-      text-align:center; padding:72px 0 56px;
-    }
+    .hero-h1{font-family:var(--display);font-weight:700;font-size:clamp(2.8rem,6.4vw,5rem);line-height:1.04;letter-spacing:-.03em;margin-bottom:26px;animation:fadeUp .75s .2s var(--ease-out) both;}
+    .h1-l1{display:block;color:var(--text);}
+    .h1-l2{display:block;color:var(--accent);text-shadow:0 0 44px rgba(45,202,140,.4);}
 
-    /* badge */
-    .badge {
-      display:inline-flex;align-items:center;gap:8px;
-      border:1px solid rgba(45,202,140,.22);
-      background:rgba(45,202,140,.06);
-      border-radius:100px; padding:6px 16px 6px 10px;
-      font-family:var(--display);font-size:.68rem;font-weight:500;
-      letter-spacing:.14em;text-transform:uppercase;color:var(--mint);
-      margin-bottom:36px;
-      animation: fadeDown .65s .1s var(--ease-out) both;
-    }
-    .badge-dot {
-      width:7px;height:7px;background:var(--green);border-radius:50%;
-      box-shadow:0 0 8px var(--green);flex-shrink:0;
-      animation:dotPulse 2.2s ease-in-out infinite;
-    }
-    @keyframes dotPulse {
-      0%,100%{transform:scale(1);opacity:1;box-shadow:0 0 8px var(--green);}
-      50%    {transform:scale(.65);opacity:.4;box-shadow:0 0 3px var(--green);}
-    }
+    .divider{width:44px;height:1px;background:linear-gradient(90deg,transparent,var(--forest),transparent);margin:0 auto 26px;animation:fadeIn 1s .38s both;}
+    .hero-p{font-size:1.02rem;line-height:1.75;color:var(--steel);max-width:480px;margin:0 auto 64px;animation:fadeUp .75s .34s var(--ease-out) both;}
 
-    /* h1 */
-    .hero-h1 {
-      font-family:var(--display);font-weight:700;
-      font-size:clamp(3rem,6.5vw,5.2rem);
-      line-height:1.04;letter-spacing:-.032em;
-      margin-bottom:28px;
-      animation: fadeUp .75s .2s var(--ease-out) both;
-    }
-    .h1-l1 { display:block;color:var(--white); }
-    .h1-l2 {
-      display:block;
-      background:linear-gradient(90deg,var(--green) 0%,var(--mint) 42%,var(--green) 84%);
-      background-size:200% auto;
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-      animation:textShimmer 5s 1.2s linear infinite;
-    }
-    @keyframes textShimmer { to { background-position:200% center; } }
-
-    .divider {
-      width:44px;height:1px;
-      background:linear-gradient(90deg,transparent,var(--forest),transparent);
-      margin:0 auto 28px;
-      animation:fadeIn 1s .38s both;
-    }
-
-    .hero-p {
-      font-size:1rem;line-height:1.8;color:var(--steel);font-weight:300;
-      max-width:460px;margin:0 auto 68px;
-      animation:fadeUp .75s .34s var(--ease-out) both;
-    }
-
-    /* ── GRID ── */
-    .demo-grid {
-      width:100%;max-width:1000px;
-      display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
-    }
+    /* grid */
+    .demo-grid{width:100%;max-width:1040px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
     .demo-grid .card:nth-child(1){animation:fadeUp .7s .52s var(--ease-out) both;}
-    .demo-grid .card:nth-child(2){animation:fadeUp .7s .64s var(--ease-out) both;}
-    .demo-grid .card:nth-child(3){animation:fadeUp .7s .76s var(--ease-out) both;}
-    .demo-grid .card:nth-child(4){animation:fadeUp .7s .88s var(--ease-out) both;}
+    .demo-grid .card:nth-child(2){animation:fadeUp .7s .62s var(--ease-out) both;}
+    .demo-grid .card:nth-child(3){animation:fadeUp .7s .72s var(--ease-out) both;}
+    .demo-grid .card:nth-child(4){animation:fadeUp .7s .82s var(--ease-out) both;}
 
-    /* ── CARD ── */
-    .card {
-      position:relative;
-      background:rgba(17,34,25,.52);
-      backdrop-filter:blur(28px) saturate(1.5);
-      -webkit-backdrop-filter:blur(28px) saturate(1.5);
-      border:1px solid rgba(45,202,140,.09);
-      border-radius:22px;
-      padding:32px 28px 28px;
-      display:flex;flex-direction:column;gap:20px;
-      text-decoration:none;color:inherit;
-      overflow:hidden;
-      outline:none;
-      transition:
-        border-color .3s ease,
-        transform .38s var(--ease-out),
-        box-shadow .35s ease;
-    }
-    /* top accent line */
-    .card::before {
-      content:'';position:absolute;
-      top:0;left:8%;right:8%;height:1px;
-      background:linear-gradient(90deg,transparent,rgba(45,202,140,.55),transparent);
-      opacity:0;transition:opacity .3s;
-    }
-    /* inner radial glow */
-    .card::after {
-      content:'';position:absolute;inset:0;
-      background:radial-gradient(ellipse 80% 55% at 50% 0%,rgba(45,202,140,.08) 0%,transparent 72%);
-      opacity:0;transition:opacity .4s;pointer-events:none;
-    }
-    .card:hover, .card:focus-visible {
-      border-color:rgba(45,202,140,.30);
-      transform:translateY(-7px);
-      box-shadow:0 30px 64px rgba(0,0,0,.40),0 0 48px rgba(45,202,140,.055);
-    }
-    .card:hover::before,.card:focus-visible::before{opacity:1;}
-    .card:hover::after, .card:focus-visible::after {opacity:1;}
-    .card:focus-visible{outline:2px solid var(--green);outline-offset:3px;}
+    .card{position:relative;background:var(--panel);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);border:1px solid var(--line);border-radius:22px;padding:28px 24px 24px;display:flex;flex-direction:column;gap:18px;text-decoration:none;color:inherit;overflow:hidden;transition:border-color .3s,transform .38s var(--ease-out),box-shadow .35s;}
+    .card::before{content:'';position:absolute;top:0;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,rgba(45,202,140,.55),transparent);opacity:0;transition:opacity .3s;}
+    .card::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 55% at 50% 0%,rgba(45,202,140,.08) 0%,transparent 72%);opacity:0;transition:opacity .4s;pointer-events:none;}
+    .card:hover,.card:focus-visible{border-color:var(--line-hi);transform:translateY(-7px);box-shadow:0 30px 64px rgba(0,0,0,.4),0 0 48px rgba(45,202,140,.06);}
+    .card:hover::before,.card:focus-visible::before,.card:hover::after,.card:focus-visible::after{opacity:1;}
 
-    /* icon */
-    .c-icon {
-      width:52px;height:52px;
-      background:rgba(26,122,82,.18);
-      border:1px solid rgba(45,202,140,.16);
-      border-radius:15px;
-      display:flex;align-items:center;justify-content:center;
-      font-size:24px;flex-shrink:0;
-      transition:background .3s,transform .35s var(--ease-out);
-    }
+    .c-icon{width:52px;height:52px;background:rgba(45,202,140,.08);border:1px solid var(--line-hi);border-radius:15px;display:flex;align-items:center;justify-content:center;color:var(--accent-2);flex-shrink:0;transition:background .3s,transform .35s var(--ease-out);}
+    .c-icon svg{width:25px;height:25px;}
     .card:hover .c-icon,.card:focus-visible .c-icon{background:rgba(45,202,140,.14);transform:scale(1.07);}
-
     .c-body{flex:1;}
-    .c-tag {
-      font-family:var(--display);font-size:.6rem;font-weight:500;
-      letter-spacing:.15em;text-transform:uppercase;
-      color:var(--green);opacity:.78;margin-bottom:9px;
-    }
-    .c-title {
-      font-family:var(--display);font-size:1.18rem;font-weight:700;
-      line-height:1.2;letter-spacing:-.022em;color:var(--white);margin-bottom:10px;
-    }
-    .c-desc { font-size:.82rem;line-height:1.68;color:var(--steel);font-weight:300; }
+    .c-tag{font-family:var(--display);font-size:.62rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);opacity:.85;margin-bottom:9px;}
+    .c-title{font-family:var(--display);font-size:1.16rem;font-weight:700;line-height:1.2;letter-spacing:-.022em;color:var(--text);margin-bottom:10px;}
+    .c-desc{font-size:.83rem;line-height:1.6;color:var(--steel);}
+    .c-foot{display:flex;align-items:center;justify-content:space-between;padding-top:18px;border-top:1px solid var(--line);}
+    .c-cta{font-family:var(--display);font-size:.78rem;font-weight:600;color:var(--fog);letter-spacing:.02em;transition:color .2s;}
+    .card:hover .c-cta,.card:focus-visible .c-cta{color:var(--accent);}
+    .c-arrow{width:30px;height:30px;border-radius:50%;background:rgba(45,202,140,.07);border:1px solid var(--line-hi);display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0;transition:background .25s,color .25s,transform .28s var(--ease-out),box-shadow .25s;}
+    .card:hover .c-arrow,.card:focus-visible .c-arrow{background:var(--accent);color:var(--bg);transform:translateX(3px);box-shadow:0 0 18px rgba(45,202,140,.4);}
 
-    .c-foot {
-      display:flex;align-items:center;justify-content:space-between;
-      padding-top:18px;border-top:1px solid rgba(45,202,140,.07);
-    }
-    .c-cta {
-      font-family:var(--display);font-size:.78rem;font-weight:600;
-      color:var(--fog);letter-spacing:.02em;transition:color .2s;
-    }
-    .card:hover .c-cta,.card:focus-visible .c-cta{color:var(--green);}
+    footer{text-align:center;padding-top:60px;font-family:var(--display);font-size:.66rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(157,184,172,.42);animation:fadeIn 1.2s .85s both;}
+    footer a{color:var(--accent-2);text-decoration:none;}
 
-    .c-arrow {
-      width:30px;height:30px;border-radius:50%;
-      background:rgba(45,202,140,.07);
-      border:1px solid rgba(45,202,140,.16);
-      display:flex;align-items:center;justify-content:center;
-      color:var(--green);flex-shrink:0;
-      transition:background .25s,color .25s,transform .28s var(--ease-out),box-shadow .25s;
-    }
-    .card:hover .c-arrow,.card:focus-visible .c-arrow{
-      background:var(--green);color:var(--bg);
-      transform:translateX(3px);
-      box-shadow:0 0 18px rgba(45,202,140,.40);
-    }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+    @keyframes fadeDown{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-    /* ── FOOTER ── */
-    footer {
-      text-align:center;padding-top:60px;
-      font-family:var(--display);font-size:.63rem;font-weight:500;
-      letter-spacing:.16em;text-transform:uppercase;
-      color:rgba(122,158,144,.38);
-      animation:fadeIn 1.2s .85s both;
-    }
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.1ms!important;}}
 
-    /* ── KEYFRAMES ── */
-    @keyframes fadeUp   {from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-    @keyframes fadeDown {from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
-    @keyframes fadeIn   {from{opacity:0}to{opacity:1}}
-
-    /* ── REDUCED MOTION ── */
-    @media(prefers-reduced-motion:reduce){
-      *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.1ms!important;}
-    }
-
-    /* ── RESPONSIVE ── */
-    @media(max-width:860px){
-      .demo-grid{grid-template-columns:repeat(2,1fr);}
-      .rings-wrap{width:min(500px,60vw);opacity:.45;}
-      .hero{padding:52px 0 40px;}
-    }
-    @media(max-width:640px){
-      .hero{padding:36px 0 28px;}
-      .badge{margin-bottom:22px;}
-      .hero-p{margin-bottom:44px;}
-      .card{padding:24px 20px 20px;}
-    }
+    @media(max-width:980px){.demo-grid{grid-template-columns:repeat(2,1fr);}.rings-wrap{width:min(500px,60vw);opacity:.45;}.hero{padding:48px 0 38px;}}
     @media(max-width:560px){
       .demo-grid{grid-template-columns:1fr;}
       .hero-h1{font-size:2.4rem;}
       .page{padding:0 18px 48px;}
       .rings-wrap{display:none;}
-      nav{padding:20px 0;}
+      nav{padding:18px 0;}
       .hero{padding:28px 0 24px;}
-      .badge{font-size:.62rem;margin-bottom:18px;}
-      .hero-p{font-size:.92rem;margin-bottom:32px;}
-      .card{padding:22px 18px 20px;gap:16px;}
-      .c-title{font-size:1.06rem;}
+      .badge{margin-bottom:20px;}
+      .hero-p{font-size:.95rem;margin-bottom:36px;}
+      .card{padding:22px 18px 18px;gap:16px;}
       footer{padding-top:36px;}
-    }
-    @media(max-width:380px){
-      .hero-h1{font-size:2.05rem;}
-      .page{padding:0 14px 40px;}
-      .card{padding:18px 14px 16px;}
-      .logo-name{font-size:1rem;}
     }
   </style>
 </head>
 <body>
 
-<div class="bg-glow"  aria-hidden="true"></div>
-<div class="bg-grid"  aria-hidden="true"></div>
+<div class="bg-glow" aria-hidden="true"></div>
+<div class="bg-grid" aria-hidden="true"></div>
 
-<!-- Anillos concéntricos (elemento signature Oco AI) -->
 <div class="rings-wrap" aria-hidden="true">
   <svg viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Anillo externo con ticks -->
     <g class="r-outer">
       <circle cx="300" cy="300" r="278" stroke="rgba(45,202,140,0.038)" stroke-width="1"/>
-      <line x1="300" y1="23"  x2="300" y2="8"   stroke="rgba(45,202,140,0.18)" stroke-width="1"/>
-      <line x1="577" y1="300" x2="592" y2="300"  stroke="rgba(45,202,140,0.12)" stroke-width="1"/>
-      <line x1="300" y1="577" x2="300" y2="592"  stroke="rgba(45,202,140,0.10)" stroke-width="1"/>
-      <line x1="23"  y1="300" x2="8"   y2="300"  stroke="rgba(45,202,140,0.10)" stroke-width="1"/>
-      <!-- diagonales -->
-      <line x1="499" y1="101" x2="508" y2="92"   stroke="rgba(45,202,140,0.07)" stroke-width="1"/>
-      <line x1="101" y1="499" x2="92"  y2="508"  stroke="rgba(45,202,140,0.07)" stroke-width="1"/>
+      <line x1="300" y1="23" x2="300" y2="8" stroke="rgba(45,202,140,0.18)" stroke-width="1"/>
+      <line x1="577" y1="300" x2="592" y2="300" stroke="rgba(45,202,140,0.12)" stroke-width="1"/>
+      <line x1="300" y1="577" x2="300" y2="592" stroke="rgba(45,202,140,0.10)" stroke-width="1"/>
+      <line x1="23" y1="300" x2="8" y2="300" stroke="rgba(45,202,140,0.10)" stroke-width="1"/>
     </g>
-    <!-- Anillo medio -->
     <g class="r-mid">
       <circle cx="300" cy="300" r="198" stroke="rgba(45,202,140,0.058)" stroke-width="1"/>
-      <line x1="300" y1="103" x2="300" y2="94"   stroke="rgba(45,202,140,0.20)" stroke-width="1"/>
-      <line x1="497" y1="300" x2="506" y2="300"  stroke="rgba(45,202,140,0.14)" stroke-width="1"/>
+      <line x1="300" y1="103" x2="300" y2="94" stroke="rgba(45,202,140,0.20)" stroke-width="1"/>
+      <line x1="497" y1="300" x2="506" y2="300" stroke="rgba(45,202,140,0.14)" stroke-width="1"/>
     </g>
-    <!-- Anillo 3 -->
     <circle cx="300" cy="300" r="130" stroke="rgba(45,202,140,0.08)" stroke-width="1"/>
-    <!-- Anillo interior pulsante -->
-    <g class="r-inner">
-      <circle cx="300" cy="300" r="70" stroke="rgba(45,202,140,0.13)" stroke-width="1"/>
-    </g>
-    <!-- Centro -->
+    <g class="r-inner"><circle cx="300" cy="300" r="70" stroke="rgba(45,202,140,0.13)" stroke-width="1"/></g>
     <circle cx="300" cy="300" r="14" stroke="rgba(45,202,140,0.14)" stroke-width="1"/>
     <circle class="c-dot" cx="300" cy="300" r="5" fill="rgba(45,202,140,0.60)"/>
   </svg>
 </div>
 
-<!-- Partículas flotantes -->
 <div class="ptcl-wrap" id="ptcl" aria-hidden="true"></div>
 
 <div class="page">
 
   <nav>
-    <a href="#" class="logo-link" aria-label="OCO AI — inicio">
-      <div class="logo-mark" aria-hidden="true"><img src="https://raw.githubusercontent.com/abelzapatav/Media-/main/LOGO-OCO-AI-redes.jpg" alt="OCO AI" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-      <span class="logo-name">OCO AI</span>
+    <a href="https://omegaconsultingai.com/" class="logo-link" aria-label="Oco AI — inicio">
+      <img class="brand-logo" src="assets/logo/wordmark-white.png" alt="Oco AI">
     </a>
     <span class="nav-tag" aria-hidden="true">Demos · 2026</span>
   </nav>
 
   <div class="hero">
-    <div class="badge" role="status" aria-live="polite">
+    <div class="badge">
       <span class="badge-dot" aria-hidden="true"></span>
-      Demos interactivas disponibles
+      Demos interactivas en vivo
     </div>
 
     <h1 class="hero-h1">
@@ -392,15 +221,14 @@
     <div class="divider" aria-hidden="true"></div>
 
     <p class="hero-p">
-      Explora nuestras demos en vivo. Cada agente está diseñado
-      para un rubro específico y conectado en tiempo real con inteligencia artificial.
+      Explora nuestras demos en vivo. Cada agente está diseñado para un rubro
+      específico y conectado en tiempo real con inteligencia artificial.
     </p>
 
-    <!-- Demo cards -->
     <div class="demo-grid" role="list">
 
       <a class="card" href="demo-inmobiliaria" role="listitem" aria-label="Demo Agente Inmobiliario — probar">
-        <div class="c-icon" aria-hidden="true">🏠</div>
+        <div class="c-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg></div>
         <div class="c-body">
           <div class="c-tag">Sector Inmobiliario</div>
           <div class="c-title">Agente Inmobiliario</div>
@@ -408,14 +236,12 @@
         </div>
         <div class="c-foot">
           <span class="c-cta">Probar demo</span>
-          <span class="c-arrow" aria-hidden="true">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-          </span>
+          <span class="c-arrow" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
 
       <a class="card" href="demo-ventacarnes" role="listitem" aria-label="Demo Asesor de Carnes — probar">
-        <div class="c-icon" aria-hidden="true">🥩</div>
+        <div class="c-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7a3 3 0 0 0 6 0V2"/><path d="M6 2v20"/><path d="M18 2a3 3 0 0 0-3 3v6a3 3 0 0 0 3 3z"/><path d="M18 13v9"/></svg></div>
         <div class="c-body">
           <div class="c-tag">Venta de Carnes</div>
           <div class="c-title">Asesor de Carnes</div>
@@ -423,14 +249,12 @@
         </div>
         <div class="c-foot">
           <span class="c-cta">Probar demo</span>
-          <span class="c-arrow" aria-hidden="true">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-          </span>
+          <span class="c-arrow" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
 
       <a class="card" href="demo-salon.spa" role="listitem" aria-label="Demo Asistente de Belleza — probar">
-        <div class="c-icon" aria-hidden="true">💅</div>
+        <div class="c-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.7 4.8L18.5 9.5l-4.8 1.7L12 16l-1.7-4.8L5.5 9.5l4.8-1.7z"/><path d="M18 15l.9 2.4L21.5 18l-2.6.6L18 21l-.9-2.4L14.5 18l2.6-.6z"/></svg></div>
         <div class="c-body">
           <div class="c-tag">Belleza & Estética</div>
           <div class="c-title">Asistente de Belleza</div>
@@ -438,31 +262,27 @@
         </div>
         <div class="c-foot">
           <span class="c-cta">Probar demo</span>
-          <span class="c-arrow" aria-hidden="true">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-          </span>
+          <span class="c-arrow" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
 
       <a class="card" href="demo-ecommerce" role="listitem" aria-label="Demo Asistente de Tienda — probar">
-        <div class="c-icon" aria-hidden="true">🛍️</div>
+        <div class="c-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
         <div class="c-body">
           <div class="c-tag">E-commerce</div>
           <div class="c-title">Asistente de Tienda</div>
-          <p class="c-desc">Consulta productos, precios y disponibilidad. Acompaña al cliente desde que explora tu catálogo hasta que se le realiza el cobro.</p>
+          <p class="c-desc">Consulta productos, precios y disponibilidad. Acompaña al cliente desde que explora tu catálogo hasta el cobro.</p>
         </div>
         <div class="c-foot">
           <span class="c-cta">Probar demo</span>
-          <span class="c-arrow" aria-hidden="true">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-          </span>
+          <span class="c-arrow" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
 
     </div>
   </div>
 
-  <footer>OCO AI · Consulting · Demos de Agentes Inteligentes</footer>
+  <footer>Oco AI · Agentes de IA para PYMEs · <a href="https://omegaconsultingai.com/">omegaconsultingai.com</a></footer>
 
 </div>
 
